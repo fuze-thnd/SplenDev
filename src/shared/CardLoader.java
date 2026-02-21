@@ -7,7 +7,6 @@ public class CardLoader {
     private DevelopmentCards[] level1;
     private DevelopmentCards[] level2;
     private DevelopmentCards[] level3;
-    private final String[] colorIndex = {"Black", "Blue", "Green", "Red", "White"};
     
     public DevelopmentCards[] getLevel1() {
         level1 = new DevelopmentCards[40];
@@ -26,15 +25,14 @@ public class CardLoader {
                 cost[2] = Integer.parseInt(data[5]);
                 cost[3] = Integer.parseInt(data[6]);
                 cost[4] = Integer.parseInt(data[7]);
-                int gemsColor = Arrays.asList(colorIndex).indexOf(data[1]);
+                int gemsColor = Gems.gemsColorIndex.valueOf(data[1]).ordinal();
                 level1[i-1] = new DevelopmentCards(i, prestigePoints, cost, gemsColor);
             }
         } catch (FileNotFoundException fileLost) {
             System.out.println(fileLost);
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            return level1;
         }
+        return level1;
     }
 }

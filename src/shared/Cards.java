@@ -1,7 +1,5 @@
 package shared;
 
-import java.util.*;
-
 public class Cards {
     private int id;
     private int prestigePoints;
