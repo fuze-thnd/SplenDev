@@ -2,14 +2,15 @@ package shared;
 
 import java.io.*;
 import java.util.*;
+import shared.Gems.gemsColor;
 
 public class CardLoader {
-    private DevelopmentCards[] level1;
-    private DevelopmentCards[] level2;
-    private DevelopmentCards[] level3;
+    private ArrayList<DevelopmentCards> level1;
+    private ArrayList<DevelopmentCards> level2;
+    private ArrayList<DevelopmentCards> level3;
     
-    public DevelopmentCards[] getLevel1() {
-        level1 = new DevelopmentCards[40];
+    public ArrayList<DevelopmentCards> getLevel1() {
+        level1 = new ArrayList<DevelopmentCards>();
         try (BufferedReader br = new BufferedReader(new FileReader("AllCards.csv"))) {
             String line;
             line = br.readLine(); // skip the Header line 
@@ -19,14 +20,14 @@ public class CardLoader {
                 String[] data = line.split(",");
                 
                 int prestigePoints = Integer.parseInt(data[2]);
-                int[] cost = new int[5];
-                cost[0] = Integer.parseInt(data[3]);
-                cost[1] = Integer.parseInt(data[4]);
-                cost[2] = Integer.parseInt(data[5]);
-                cost[3] = Integer.parseInt(data[6]);
-                cost[4] = Integer.parseInt(data[7]);
-                int gemsColor = Gems.gemsColorIndex.valueOf(data[1]).ordinal();
-                level1[i-1] = new DevelopmentCards(i, prestigePoints, cost, gemsColor);
+                HashMap cost = new HashMap();
+                cost.put(gemsColor.Black, Integer.valueOf(data[3]));
+                cost.put(gemsColor.Blue, Integer.valueOf(data[4]));
+                cost.put(gemsColor.Green, Integer.valueOf(data[5]));
+                cost.put(gemsColor.Red, Integer.valueOf(data[6]));
+                cost.put(gemsColor.White, Integer.valueOf(data[7]));
+                gemsColor bonusGemsColor = gemsColor.valueOf(data[1]);
+                level1.add(new DevelopmentCards(i, prestigePoints, cost, bonusGemsColor));
             }
         } catch (FileNotFoundException fileLost) {
             System.out.println(fileLost);

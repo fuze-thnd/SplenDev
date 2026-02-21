@@ -1,13 +1,13 @@
 package client;
 
-import shared.Gems;
-import shared.Cards;
-
+import shared.*;
+import shared.Gems.gemsColor;
+import java.util.*;
 
 public class Player {
     private String name;
     private int scores;
-    private Cards[] cards;
-    private Gems[] gems;
+    private ArrayList<DevelopmentCards> developmentCards;
+    private HashMap<gemsColor, Integer> gems;
     
 }

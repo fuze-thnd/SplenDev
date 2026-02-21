@@ -1,14 +1,15 @@
 package shared;
 
-import java.io.*;
+import shared.Gems.gemsColor;
+import java.util.*;
 
 public class DevelopmentCards extends Cards {
-    private int gemsColor;
-    public DevelopmentCards(int id, int prestigePoints, int[] cost, int gemsColor) {
+    private gemsColor bonusGemsColor;
+    public DevelopmentCards(int id, int prestigePoints, HashMap cost, gemsColor bonusGemsColor) {
         super(id, prestigePoints, cost);
-        setGemsColor(gemsColor);
+        setGemsColor(bonusGemsColor);
     }
     
-    public void setGemsColor(int gemsColor) {this.gemsColor = gemsColor;}
-    public int getGemsColor() {return gemsColor;}
+    public void setGemsColor(gemsColor gemsColor) {this.bonusGemsColor = gemsColor;}
+    public gemsColor getGemsColor() {return bonusGemsColor;}
 }
