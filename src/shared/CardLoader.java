@@ -9,65 +9,32 @@ public class CardLoader {
     private ArrayList<DevelopmentCards> level2;
     private ArrayList<DevelopmentCards> level3;
     
-    public ArrayList<DevelopmentCards> getLevel1() {
-        level1 = new ArrayList<DevelopmentCards>();
+    public CardLoader() {
+        level1 = new ArrayList<>();
+        level2 = new ArrayList<>();
+        level3 = new ArrayList<>();
+        
         try (BufferedReader br = new BufferedReader(new FileReader("AllCards.csv"))) {
             String line;
-            line = br.readLine(); // skip the Header line 
+            br.readLine(); // skip the Header line
             
-            for (int i=1; i<=40; i++) {
+            for (int i=1; i<=90; i++) {
                 line = br.readLine();
-                
-                level1.add(getDevelopmentCardsData(i, line));
-            }
-        } catch (FileNotFoundException fileLost) {
-            System.out.println(fileLost);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return level1;
-    }
-    
-    public ArrayList<DevelopmentCards> getLevel2() {
-        level2 = new ArrayList<DevelopmentCards>();
-        try (BufferedReader br = new BufferedReader(new FileReader("AllCards.csv"))) {
-            String line;
-            line = br.readLine(); // skip the Header line
-            // skip the level1 cards line
-            for (int i=1; i<=40; i++)
-                line = br.readLine();
-            for (int i=41; i<=70; i++) {
-                line = br.readLine();
-                
-                level2.add(getDevelopmentCardsData(i, line));
+                int level = Integer.parseInt(line.split(",")[0]);
+                DevelopmentCards developmentCards = getDevelopmentCardsData(i, line);
+                if (level == 1) {
+                    level1.add(developmentCards);
+                } else if (level == 2) {
+                    level2.add(developmentCards);
+                } else if (level == 3) {
+                    level3.add(developmentCards);
+                }
             }
         } catch (FileNotFoundException fileLost) {
             System.out.println(fileLost);
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return level2;
-    }
-    
-    public ArrayList<DevelopmentCards> getLevel3() {
-        level3 = new ArrayList<DevelopmentCards>();
-        try (BufferedReader br = new BufferedReader(new FileReader("AllCards.csv"))) {
-            String line;
-            line = br.readLine(); // skip the Header line
-            // skip the level1 and level2 cards line
-            for (int i=1; i<=70; i++)
-                line = br.readLine();
-            for (int i=71; i<=90; i++) {
-                line = br.readLine();
-                
-                level3.add(getDevelopmentCardsData(i, line));
-            }
-        } catch (FileNotFoundException fileLost) {
-            System.out.println(fileLost);
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        return level3;
     }
     
     public DevelopmentCards getDevelopmentCardsData(int id, String line) {
@@ -83,4 +50,9 @@ public class CardLoader {
         gemsColor bonusGemsColor = gemsColor.valueOf(data[1]);
         return new DevelopmentCards(id, prestigePoints, cost, bonusGemsColor);
     }
+    
+    public ArrayList<DevelopmentCards> getDevelopmentCardsLevel1() {return level1;}
+    public ArrayList<DevelopmentCards> getDevelopmentCardsLevel2() {return level2;}
+    public ArrayList<DevelopmentCards> getDevelopmentCardsLevel3() {return level3;}
+    
 }
