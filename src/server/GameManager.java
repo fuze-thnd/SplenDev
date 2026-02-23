@@ -14,6 +14,7 @@ public class GameManager {
     public ArrayList<DevelopmentCards> developmentCardsLevel1;
     public ArrayList<DevelopmentCards> developmentCardsLevel2;
     public ArrayList<DevelopmentCards> developmentCardsLevel3;
+    public ArrayList<NobleCards> nobleCards;
     
     public GameManager() {
         CardLoader cardLoader = new CardLoader();
@@ -28,6 +29,11 @@ public class GameManager {
         }
         for (int i=0; i<20; i++) {
             System.out.println(developmentCardsLevel3.get(i).getId() +", "+ developmentCardsLevel3.get(i).getGemsColor() +", "+ developmentCardsLevel3.get(i).getPrestigePoints() + ", " + developmentCardsLevel3.get(i).getCost());
+        }
+        System.out.println();
+        nobleCards = cardLoader.getNobleCards();
+        for (int i=0; i<10; i++) {
+            System.out.println(nobleCards.get(i).getId() +", "+ nobleCards.get(i).getPrestigePoints() +", "+ nobleCards.get(i).getCost());
         }
     }
 }
