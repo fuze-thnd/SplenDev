@@ -1,0 +1,1 @@
+> **Disclaimer:** This board game was developed as an educational project for the Object-Oriented Programming (OOP) course at the Faculty of Information Technology, KMITL. **It is not for sale, commercial use, or public distribution.**
