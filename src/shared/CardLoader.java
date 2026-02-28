@@ -5,15 +5,15 @@ import java.util.*;
 import shared.Gems.gemsColor;
 
 public class CardLoader {
-    private ArrayList<DevelopmentCards> level1;
-    private ArrayList<DevelopmentCards> level2;
-    private ArrayList<DevelopmentCards> level3;
+    private Stack<DevelopmentCards> level1;
+    private Stack<DevelopmentCards> level2;
+    private Stack<DevelopmentCards> level3;
     private ArrayList<NobleCards> noble;
     
     public CardLoader() {
-        level1 = new ArrayList<>();
-        level2 = new ArrayList<>();
-        level3 = new ArrayList<>();
+        level1 = new Stack<>();
+        level2 = new Stack<>();
+        level3 = new Stack<>();
         noble = new ArrayList<>();
         
         // development cards loader
@@ -84,9 +84,9 @@ public class CardLoader {
         return new NobleCards(id, prestigePoints, cost);
     }
     
-    public ArrayList<DevelopmentCards> getDevelopmentCardsLevel1() {return level1;}
-    public ArrayList<DevelopmentCards> getDevelopmentCardsLevel2() {return level2;}
-    public ArrayList<DevelopmentCards> getDevelopmentCardsLevel3() {return level3;}
+    public Stack<DevelopmentCards> getDevelopmentCardsLevel1() {return level1;}
+    public Stack<DevelopmentCards> getDevelopmentCardsLevel2() {return level2;}
+    public Stack<DevelopmentCards> getDevelopmentCardsLevel3() {return level3;}
     public ArrayList<NobleCards> getNobleCards() {return noble;}
     
 }

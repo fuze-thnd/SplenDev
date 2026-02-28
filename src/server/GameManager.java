@@ -11,9 +11,9 @@ public class GameManager {
     private int currentPlayer;
     private DevelopmentCards[] cardsOnBoard = new DevelopmentCards[4];
     private Map<gemsColor, Integer> BankGems;
-    public ArrayList<DevelopmentCards> developmentCardsLevel1;
-    public ArrayList<DevelopmentCards> developmentCardsLevel2;
-    public ArrayList<DevelopmentCards> developmentCardsLevel3;
+    public Stack<DevelopmentCards> developmentCardsLevel1;
+    public Stack<DevelopmentCards> developmentCardsLevel2;
+    public Stack<DevelopmentCards> developmentCardsLevel3;
     public ArrayList<NobleCards> nobleCards;
     
     public GameManager() {
