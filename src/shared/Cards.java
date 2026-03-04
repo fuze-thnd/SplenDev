@@ -1,9 +1,10 @@
 package shared;
 
+import client.Player;
 import java.util.*;
 import shared.Gems.gemsColor;
 
-public class Cards {
+public abstract class Cards {
     private int id;
     private int prestigePoints;
     private HashMap<gemsColor, Integer> cost = new HashMap();
@@ -23,6 +24,7 @@ public class Cards {
     public void setCost(HashMap cost) {this.cost = cost;}
     public HashMap getCost() {return cost;}
     
+    public abstract void addPlayerPrestigePoints(Player p);
     // need sell method
     
 }

@@ -1,5 +1,6 @@
 package shared;
 
+import client.Player;
 import java.util.*;
 
 public class NobleCards extends Cards {
@@ -7,5 +8,8 @@ public class NobleCards extends Cards {
         super(id, prestigePoints, cost);
     }
     
-    
+    @Override
+    public void addPlayerPrestigePoints(Player p) {
+        p.setPrestigePoints(p.getPrestigePoints() + this.getPrestigePoints());
+    }
 }
