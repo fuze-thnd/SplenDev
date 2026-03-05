@@ -25,6 +25,5 @@ public abstract class Cards {
     public HashMap getCost() {return cost;}
     
     public abstract void addPlayerPrestigePoints(Player p);
-    // need sell method
     
 }

@@ -8,8 +8,8 @@ public class Player {
     private String name;
     private int prestigePoints;
     private ArrayList<DevelopmentCards> developmentCards;
-    private HashMap<gemsColor, Integer> gems;
     private ArrayList<NobleCards> nobleCards;
+    private HashMap<gemsColor, Integer> gems;
     
     public Player(String name) {
         setName(name);
@@ -21,6 +21,7 @@ public class Player {
         gems.put(gemsColor.Green, 0);
         gems.put(gemsColor.Red, 0);
         gems.put(gemsColor.White, 0);
+        nobleCards = new ArrayList<>();
     }
     public void setName(String name) {this.name = name;}
     public String getName() {return this.name;}
@@ -32,7 +33,7 @@ public class Player {
         if (developmentCards.contains(developmentCard)) {
             developmentCards.remove(developmentCard);
         } else {
-            System.out.println("You don't have " + developmentCard.getId() + " cards");
+            System.out.println("You don't have this card ID:" + developmentCard.getId());
         }
     }
     public void addGems(gemsColor gems, int n) {this.gems.put(gems, this.gems.get(gems)+n);}
@@ -46,4 +47,5 @@ public class Player {
         }
     }
     public HashMap<gemsColor, Integer> getGems() {return gems;}
+    public void addNobleCards(NobleCards nobleCard) {this.nobleCards.add(nobleCard);}
 }
