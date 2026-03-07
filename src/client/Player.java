@@ -10,6 +10,7 @@ public class Player {
     private ArrayList<DevelopmentCards> developmentCards;
     private ArrayList<NobleCards> nobleCards;
     private HashMap<gemsColor, Integer> gems;
+    private HashMap<gemsColor, Integer> bonusGems;
     
     public Player(String name) {
         setName(name);
@@ -21,6 +22,13 @@ public class Player {
         gems.put(gemsColor.Green, 0);
         gems.put(gemsColor.Red, 0);
         gems.put(gemsColor.White, 0);
+        gems.put(gemsColor.Gold, 0);
+        bonusGems = new HashMap<>();
+        bonusGems.put(gemsColor.Black, 0);
+        bonusGems.put(gemsColor.Blue, 0);
+        bonusGems.put(gemsColor.Green, 0);
+        bonusGems.put(gemsColor.Red, 0);
+        bonusGems.put(gemsColor.White, 0);
         nobleCards = new ArrayList<>();
     }
     public void setName(String name) {this.name = name;}
@@ -48,4 +56,6 @@ public class Player {
     }
     public HashMap<gemsColor, Integer> getGems() {return gems;}
     public void addNobleCards(NobleCards nobleCard) {this.nobleCards.add(nobleCard);}
+    public HashMap<gemsColor, Integer> getBonusGems() {return bonusGems;}
+    public void addBonusGems(gemsColor g) {this.bonusGems.put(g, bonusGems.get(g)+1);}
 }
