@@ -105,15 +105,21 @@ public class GameManager {
         return goldNeeded <= goldAvailable;
     }
     
+    public boolean buyCard(Player p, DevelopmentCards card) {
+        return false;
+    }
+    
     public boolean reserveCard(Player p, DevelopmentCards card) {
+        return false;
+    }
+    
+    public boolean sacrificeCard(Player p, DevelopmentCards card) {
         return false;
     }
     
     public boolean checkNoble(Player p) {
         return false;
     }
-    
-    
     
     public void refillDevelopmentCards() {
         for (int i = 0; i < 3; i++) {
