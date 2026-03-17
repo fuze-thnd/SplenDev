@@ -144,7 +144,11 @@ public class GameManager {
     }
     
     public boolean reserveCard(Player p, DevelopmentCards card) {
-        return false;
+        if (p.getReservedCard().size() >= 3) {
+            return false;
+        }
+        p.addReservedCard(card);
+        return true;
     }
     
     public boolean sacrificeCard(Player p, Sacrificable card) {
