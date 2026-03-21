@@ -92,28 +92,72 @@ public class GameManager {
             if (color == gemsColor.Gold) continue;
             
             int cost = cardCost.get(color);
-            int gems = p.getGems().get(color);
-            int bonus = p.getBonusGems().get(color);
+            int playerGems = p.getGems().get(color);
+            int playerBonus = p.getBonusGems().get(color);
             
-            int costAfterBonus = Math.max(0, cost - bonus);
+            int costAfterBonus = Math.max(0, cost - playerBonus);
             if (costAfterBonus > 0) {
-                if (gems < costAfterBonus) {
-                    goldNeeded += costAfterBonus - gems;
+                if (playerGems < costAfterBonus) {
+                    goldNeeded += costAfterBonus - playerGems;
                 }
             }
         }
         return goldNeeded <= goldAvailable;
     }
     
+    public boolean buyCard(Player p, DevelopmentCards card) {
+        if (!canPlayerBuyCard(p, card)) {
+            return false;
+        }
+        
+        HashMap<gemsColor, Integer> cardCost = card.getCost();
+        HashMap<gemsColor, Integer> bankGems = state.getBankGems();
+        
+        for (gemsColor color : cardCost.keySet()) {
+            // skip gold (no gold is cost)
+            if (color == gemsColor.Gold) continue;
+            
+            int cost = cardCost.get(color);
+            int playerBonus = p.getBonusGems().get(color);
+            int costAfterBonus = Math.max(0, cost - playerBonus);
+            
+            if (costAfterBonus > 0) {
+                int playerGems = p.getGems().get(color);
+                // have enough gems
+                if (playerGems >= costAfterBonus) {
+                    p.removeGems(color, costAfterBonus);
+                    bankGems.put(color, bankGems.get(color) + costAfterBonus);
+                // doesn't have enough gems (use gold)
+                } else {
+                    int goldNeeded = costAfterBonus - playerGems;
+                    
+                    p.removeGems(color, playerGems);
+                    bankGems.put(color, bankGems.get(color) + playerGems);
+                    
+                    p.removeGems(gemsColor.Gold, goldNeeded);
+                    bankGems.put(gemsColor.Gold, bankGems.get(gemsColor.Gold) + goldNeeded);
+                }
+            }
+        }
+        p.addDevelopmentCards(card);
+        return true;
+    }
+    
     public boolean reserveCard(Player p, DevelopmentCards card) {
+        if (p.getReservedCard().size() >= 3) {
+            return false;
+        }
+        p.addReservedCard(card);
+        return true;
+    }
+    
+    public boolean sacrificeCard(Player p, Sacrificable card) {
         return false;
     }
     
     public boolean checkNoble(Player p) {
         return false;
     }
-    
-    
     
     public void refillDevelopmentCards() {
         for (int i = 0; i < 3; i++) {
