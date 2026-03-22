@@ -46,8 +46,7 @@ public class GameClient {
         receiveThread.setDaemon(true);
         receiveThread.start();
 
-        System.out.println("[GameClient] Connected to " + host + ":" + port
-                           + " as \"" + playerName + "\"");
+        System.out.println("[GameClient] Connected to " + host + ":" + port+ " as \"" + playerName + "\"");
     }
 
     public void disconnect() {
