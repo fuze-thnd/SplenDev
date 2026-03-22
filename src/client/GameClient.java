@@ -106,25 +106,40 @@ public class GameClient {
     }
 
    private void handleServerObject(Object obj) {
-    // 1. ตรวจสอบว่าเป็น GameState หรือไม่
     if (obj instanceof GameState) {
-            if (gameStateListener != null) {
-                gameStateListener.onGameStateReceived((GameState) obj);
-            }
+        if (gameStateListener != null) {
+            gameStateListener.onGameStateReceived((GameState) obj);
         }
-    // 2. จัดการข้อมูลประเภทอื่นๆ เช่น String (สำหรับข้อความ INFO หรือ ERROR)
-    else if (obj instanceof String) {
-            String message = (String) obj;
-            if (message.startsWith("INFO:")) {
-                if (connectionListener != null) connectionListener.onInfoReceived(message.substring(5));
-            } else if (message.startsWith("ERROR:")) {
-                if (connectionListener != null) connectionListener.onErrorReceived(message.substring(6));
-            } else if (message.equals("START")) {
-                if (connectionListener != null) connectionListener.onGameStarted();
-            }
-        }
+    } else if (obj instanceof String) {
+        handleStringMessage((String) obj);
     }
-
+}
+    private void handleStringMessage(String message) {
+            if (message.startsWith("INFO:")) {
+                String info = message.substring("INFO:".length());
+                if (connectionListener != null) {
+                    connectionListener.onInfoReceived(info);
+                }
+                
+            } else if (message.startsWith("ERROR:")) {
+                String error = message.substring("ERROR:".length());
+                if (connectionListener != null) {
+                    connectionListener.onErrorReceived(error);
+                }
+                
+            } else if (message.equals("START")) {
+                System.out.println("[GameClient] Game is starting!");
+                if (connectionListener != null) {
+                    connectionListener.onGameStarted();
+                }
+            } else if (message.equals("END:")) {
+                String end = message.substring("END:".length());
+                System.out.println("[GameClient] Game is starting!");
+                if (connectionListener != null) {
+                    connectionListener.onGameEnded(end);
+                }
+            }
+        }
     private void sendRaw(Object obj) {
         try {
              if (out != null) {
