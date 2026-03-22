@@ -2,7 +2,6 @@ package client;
 
 import java.io.*;
 import java.net.*;
-import shared.GameState;
 
 public class GameClient {
 
@@ -13,8 +12,8 @@ public class GameClient {
     private final int port;
 
     private Socket socket;
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
+    private PrintWriter out;
+    private BufferedReader in;
 
     private String playerName;
     private boolean connected = false;
@@ -35,8 +34,10 @@ public class GameClient {
         this.playerName = playerName;
 
         socket = new Socket(host, port);
-        out  = new ObjectOutputStream(socket.getOutputStream());
-        in     = new ObjectInputStream(socket.getInputStream());
+        out    = new PrintWriter(new BufferedWriter(
+                     new OutputStreamWriter(socket.getOutputStream())), true);
+        in     = new BufferedReader(
+                     new InputStreamReader(socket.getInputStream()));
 
         connected = true;
 
@@ -68,6 +69,7 @@ public class GameClient {
         }
         String networkMessage = "ACTION:" + playerName + ":" + actionMessage;
         sendRaw(networkMessage);
+        System.out.println("[GameClient] Sent → " + networkMessage);
     }
 
     public void sendChat(String text) {
@@ -90,11 +92,11 @@ public class GameClient {
 
     private void receiveLoop() {
         try {
-            while (connected) {
-                Object obj = in.readObject(); // อ่าน Object โดยตรง
-                handleServerObject(obj);
+            String message;
+            while (connected && (message = in.readLine()) != null) {
+                handleServerMessage(message);
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             if (connected) {
                 System.err.println("[GameClient] Connection lost: " + e.getMessage());
                 connected = false;
@@ -105,42 +107,55 @@ public class GameClient {
         }
     }
 
-   private void handleServerObject(Object obj) {
-    // 1. ตรวจสอบว่าเป็น GameState หรือไม่
-    if (obj instanceof GameState) {
+    private void handleServerMessage(String message) {
+        System.out.println("[GameClient] Received ← " + message);
+
+        if (message.startsWith("STATE:")) {
+            String gameState = message.substring("STATE:".length());
             if (gameStateListener != null) {
-                gameStateListener.onGameStateReceived((GameState) obj);
+                gameStateListener.onGameStateReceived(gameState);
             }
-        }
-    // 2. จัดการข้อมูลประเภทอื่นๆ เช่น String (สำหรับข้อความ INFO หรือ ERROR)
-    else if (obj instanceof String) {
-            String message = (String) obj;
-            if (message.startsWith("INFO:")) {
-                if (connectionListener != null) connectionListener.onInfoReceived(message.substring(5));
-            } else if (message.startsWith("ERROR:")) {
-                if (connectionListener != null) connectionListener.onErrorReceived(message.substring(6));
-            } else if (message.equals("START")) {
-                if (connectionListener != null) connectionListener.onGameStarted();
+
+        } else if (message.startsWith("INFO:")) {
+            String info = message.substring("INFO:".length());
+            System.out.println("[Server INFO] " + info);
+            if (connectionListener != null) {
+                connectionListener.onInfoReceived(info);
             }
+
+        } else if (message.startsWith("ERROR:")) {
+            String error = message.substring("ERROR:".length());
+            System.err.println("[Server ERROR] " + error);
+            if (connectionListener != null) {
+                connectionListener.onErrorReceived(error);
+            }
+
+        } else if (message.equals("START")) {
+            System.out.println("[GameClient] Game is starting!");
+            if (connectionListener != null) {
+                connectionListener.onGameStarted();
+            }
+
+        } else if (message.startsWith("END:")) {
+            String winner = message.substring("END:".length());
+            System.out.println("[GameClient] Game over! Winner: " + winner);
+            if (connectionListener != null) {
+                connectionListener.onGameEnded(winner);
+            }
+
+        } else {
+            System.out.println("[GameClient] Unknown message: " + message);
         }
     }
 
-    private void sendRaw(Object obj) {
-        try {
-             if (out != null) {
-                  out.writeObject(obj);
-                  out.flush();
-                  out.reset();
-            }
+    private void sendRaw(String raw) {
+        if (out != null) {
+            out.println(raw);
         }
-        catch (IOException e) {
-            System.err.println("[GameClient] Send Error: " + e.getMessage());
-        }
- 
     }
 
     public interface GameStateListener {
-        void onGameStateReceived(GameState gameState);
+        void onGameStateReceived(String gameState);
     }
 
     public interface ConnectionListener {
