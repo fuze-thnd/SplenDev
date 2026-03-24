@@ -5,6 +5,7 @@
     import java.util.ArrayList;
     import java.util.List;
     import javax.swing.*;
+    import javax.swing.border.LineBorder;
 
     public class GameWindow {
         private JFrame frame;
