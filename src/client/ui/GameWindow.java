@@ -38,7 +38,7 @@
 
             // กำหนดขนาดฝั่งเจม
             centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-            centerPanel.setPreferredSize(new Dimension(82,610));
+            centerPanel.setPreferredSize(new Dimension(60,610));
 
             //สร้างLayout Card
             JPanel noblePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
@@ -70,10 +70,10 @@
                 level3CardLst.add(level3Card);
                 cardPanel2.add(level3Card);
             }
-            JPanel gemPanel = new JPanel(new GridLayout(5,1,20,50    ));
-            for(int i=0; i<5; i++) {
+            JPanel gemPanel = new JPanel(new GridLayout(6,1,20,50    ));
+            for(int i=0; i<6; i++) {
                 JButton gemCard = new JButton();
-                gemCard.setPreferredSize(new Dimension(82,82));
+                gemCard.setPreferredSize(new Dimension(60,60));
                 gemCardLst.add(gemCard);
                 gemPanel.add(gemCard);
             }
