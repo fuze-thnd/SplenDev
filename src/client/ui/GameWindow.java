@@ -11,6 +11,7 @@
         private JPanel mainPanel;
         private JPanel leftPanel;
         private JPanel centerPanel;
+        private JPanel rightPanel;
         private List<JButton> nobleCardLst = new ArrayList<>();
         private List<JButton> level1CardLst = new ArrayList<>();
         private List<JButton> level2CardLst = new ArrayList<>();
@@ -23,6 +24,7 @@
             mainPanel = new JPanel();
             leftPanel = new JPanel();
             centerPanel = new JPanel();
+            rightPanel = new JPanel();
 
             frame.add(mainPanel);
             frame.setSize(1200,1000);
@@ -39,6 +41,10 @@
             // กำหนดขนาดฝั่งเจม
             centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
             centerPanel.setPreferredSize(new Dimension(82,610));
+
+            //กำหนดขนาดฝั่งplayer
+            rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS));
+            rightPanel.setPreferredSize(new Dimension(450,450);
 
             //สร้างLayout Card
             JPanel noblePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
@@ -188,10 +194,12 @@
             
             mainPanel.add(leftPanel);
             mainPanel.add(centerPanel);
+            mainPanel.add(rightPanel);
             cardPanel1.add(cardPanel2);
             leftPanel.add(noblePanel,BorderLayout.NORTH);
             leftPanel.add(cardPanel1,BorderLayout.CENTER);
             centerPanel.add(gemPanel);
+            rightPanel.add(playerspanel);
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
