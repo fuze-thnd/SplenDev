@@ -45,7 +45,7 @@
 
             //กำหนดขนาดฝั่งplayer
             rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS));
-            rightPanel.setPreferredSize(new Dimension(450,450);
+            rightPanel.setPreferredSize(new Dimension(450,450));
 
             //สร้างLayout Card
             JPanel noblePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
