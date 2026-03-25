@@ -155,8 +155,39 @@ public class GameManager {
         return false;
     }
     
-    public boolean checkNoble(Player p) {
-        return false;
+    public boolean checkWin(Player p){
+        return (p.getPrestigePoints() >= 15);
+    }
+    
+    public ArrayList<NobleCards> checkNoble(Player p) {
+        ArrayList<NobleCards> nobleCardsOnBoard = state.getNobleCardsOnBoard();
+        HashMap<Gems.gemsColor,Integer> pGems = p.getGems();
+        HashMap<Gems.gemsColor,Integer> pBonusGems = p.getBonusGems();
+        ArrayList<NobleCards> result = new ArrayList<>();
+        
+        pBonusGems.forEach((key,value) ->
+        pGems.merge(key, value, (v1, v2) -> (v1 + v2)));
+        
+        for (NobleCards i :nobleCardsOnBoard) {
+            HashMap<Gems.gemsColor,Integer> currentNobleCardCost = i.getCost();
+            boolean buyable = false;
+            for (gemsColor j : pGems.keySet()) {
+                buyable = Objects.equals(currentNobleCardCost.get(j), pGems.get(j));
+            }
+            if (buyable){
+                result.add(i);
+            }
+        }
+        return result;
+    }
+    
+    public boolean checkGems(Player p) {
+        HashMap<Gems.gemsColor,Integer> pGems = p.getGems();
+        Integer sumGems = 0;
+        for (gemsColor i : pGems.keySet()) {
+            sumGems += pGems.get(i);
+        }
+        return (sumGems > 10);
     }
     
     public void refillDevelopmentCards() {
