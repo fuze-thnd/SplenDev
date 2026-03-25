@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import shared.Gems.gemsColor;
 
-public class CardLoader {
+public class CardLoader implements Serializable{
     private Stack<DevelopmentCards> level1;
     private Stack<DevelopmentCards> level2;
     private Stack<DevelopmentCards> level3;

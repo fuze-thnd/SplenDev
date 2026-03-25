@@ -11,6 +11,7 @@ public class Player {
     private ArrayList<NobleCards> nobleCards;
     private HashMap<gemsColor, Integer> gems;
     private HashMap<gemsColor, Integer> bonusGems;
+
     
     public Player(String name) {
         setName(name);

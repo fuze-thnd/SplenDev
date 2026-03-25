@@ -1,6 +1,8 @@
 package server.serverTester;
 
 import server.RoomHandler;
+import shared.DevelopmentCards;
+import shared.NobleCards;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,6 +17,8 @@ public class ClientTester {
     private String name;
     private boolean isRunning = true;
     private Scanner sc;
+    private ArrayList<DevelopmentCards> developmentCards;
+    private ArrayList<NobleCards> nobleCards;
 
     public ClientTester(String name) {
         this.sc = new Scanner(System.in);
@@ -65,9 +69,8 @@ public class ClientTester {
                         log("Received list of items from server size " + r.size());
 
                         for(int i = 0;i < r.size();i++){
-                            System.out.println(r.get(i));
                             if (r.get(i) instanceof RoomHandler room){
-                                System.out.println(i + 1 + ". Name:" + room.getRoomName() + " UUID: " + room.getUUID());
+                                System.out.println(i + 1 + ". Name:" + room.getRoomName() + " Code: " + room.getCode());
                             }
                         }
                     }

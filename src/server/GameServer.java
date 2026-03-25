@@ -9,6 +9,7 @@ import java.util.UUID;
 public class GameServer {
     public static GameServer instance;
     private ArrayList<RoomHandler> rooms;
+    private ArrayList<PlayerHandler> players;
     private final int port = 8080;
     private final int maxRoom = 4;
     private final int maxPlayer = 4;
@@ -16,7 +17,8 @@ public class GameServer {
     private boolean isRunning = false;
 
     private GameServer() {
-        this.rooms = new ArrayList<RoomHandler>();
+        this.rooms = new ArrayList<>();
+        this.players = new ArrayList<>();
         log("Game server instance created.");
     }
 
@@ -35,6 +37,7 @@ public class GameServer {
                     Socket clientSocket = serverSocket.accept();
 
                     PlayerHandler playerHandler = new PlayerHandler(clientSocket);
+                    players.add(playerHandler);
                     playerHandler.start();
                 }
             }catch (IOException e){
@@ -61,9 +64,9 @@ public class GameServer {
         return rooms;
     }
 
-    public RoomHandler getRoom(UUID uuid){
+    public RoomHandler getRoom(String code){
         for (RoomHandler room : rooms) {
-            if(room.getUUID().equals(uuid)){
+            if(room.getCode().equals(code)){
                 return room;
             }
         }
@@ -71,11 +74,15 @@ public class GameServer {
         return null;
     }
 
+    public ArrayList<PlayerHandler> getPlayers() {
+        return this.players;
+    }
+
     public RoomHandler createRoom(String roomName){
         RoomHandler room = new RoomHandler(roomName);
         rooms.add(room);
 
-        log("Room created, Room Name: " +  roomName + " UUID: " + room.getUUID());
+        log("Room created, Room Name: " +  roomName + " Code: " + room.getCode());
         return room;
     }
 
@@ -85,6 +92,12 @@ public class GameServer {
         }
 
         return instance;
+    }
+
+    public void sendRefreshRoomListToEveryone(){
+        for(PlayerHandler player : players){
+            player.sendRefreshRoomListCommand();
+        }
     }
 
     public void log(String message){

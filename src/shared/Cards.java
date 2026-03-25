@@ -1,10 +1,12 @@
 package shared;
 
 import client.Player;
+
+import java.io.Serializable;
 import java.util.*;
 import shared.Gems.gemsColor;
 
-public abstract class Cards {
+public abstract class Cards implements Serializable {
     private int id;
     private int prestigePoints;
     private HashMap<gemsColor, Integer> cost = new HashMap();
