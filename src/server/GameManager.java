@@ -55,9 +55,10 @@ public class GameManager {
     }
     
     public boolean take3Gems(Player p, gemsColor g1, gemsColor g2, gemsColor g3) {
+        boolean notGold = (g1 != gemsColor.Gold) && (g2 != gemsColor.Gold) && (g3 != gemsColor.Gold);
         boolean notSameColors = g1 != g2 && g1 != g3 && g2 != g3;
         boolean haveEnoughGem = state.getBankGems().get(g1) > 0 && state.getBankGems().get(g2) > 0 && state.getBankGems().get(g1) > 0;
-        if (notSameColors & haveEnoughGem) {
+        if (notSameColors && haveEnoughGem && notGold) {
             state.getBankGems().put(g1, state.getBankGems().get(g1)-1);
             state.getBankGems().put(g2, state.getBankGems().get(g2)-1);
             state.getBankGems().put(g3, state.getBankGems().get(g3)-1);
@@ -71,7 +72,7 @@ public class GameManager {
     }
     
     public boolean take2Gems(Player p, gemsColor g) {
-        if (state.getBankGems().get(g) >= 4) {
+        if (g != gemsColor.Gold && state.getBankGems().get(g) >= 4) {
             state.getBankGems().put(g, state.getBankGems().get(g)-2);
             p.addGems(g, 2);
             return true;
@@ -141,6 +142,8 @@ public class GameManager {
         }
         state.setBankGems(bankGems);
         p.addDevelopmentCards(card);
+        p.setPrestigePoints(p.getPrestigePoints() + card.getPrestigePoints());
+        p.addBonusGems(card.getGemsColor());
         return true;
     }
     
@@ -212,11 +215,11 @@ public class GameManager {
                 if (state.getCardsOnBoard()[i][j] != null)
                     continue;
                 // add the slot that has no card
-                if (i == 0)
+                if (i == 0 && !state.getDevelopmentCardsLevel1().isEmpty())
                     state.getCardsOnBoard()[i][j] = state.getDevelopmentCardsLevel1().pop();
-                else if (i == 1)
+                else if (i == 1 && !state.getDevelopmentCardsLevel1().isEmpty())
                     state.getCardsOnBoard()[i][j] = state.getDevelopmentCardsLevel2().pop();
-                else if (i == 2)
+                else if (i == 2 && !state.getDevelopmentCardsLevel1().isEmpty())
                     state.getCardsOnBoard()[i][j] = state.getDevelopmentCardsLevel3().pop();
             }
         }
