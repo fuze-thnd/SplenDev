@@ -139,6 +139,7 @@ public class GameManager {
                 }
             }
         }
+        state.setBankGems(bankGems);
         p.addDevelopmentCards(card);
         return true;
     }
@@ -147,12 +148,26 @@ public class GameManager {
         if (p.getReservedCard().size() >= 3) {
             return false;
         }
+        if (state.getBankGems().get(gemsColor.Gold) > 0) {
+            p.addGems(gemsColor.Gold, 1);
+            state.getBankGems().put(gemsColor.Gold, state.getBankGems().get(gemsColor.Gold)-1);
+        }
         p.addReservedCard(card);
         return true;
     }
     
-    public boolean sacrificeCard(Player p, Sacrificable card) {
-        return false;
+    public void sacrificeCard(Player p, Sacrificable card) {
+        int bankGemsGold = state.getBankGems().get(gemsColor.Gold);
+        int playerRefund = card.getDropRefund();
+        int actuallyGold;
+        if (bankGemsGold >= playerRefund) {
+            actuallyGold = playerRefund;
+        } else {
+            actuallyGold = bankGemsGold;
+        }
+        p.removeDevelopmentCards((DevelopmentCards)card);
+        state.getBankGems().put(gemsColor.Gold, state.getBankGems().get(gemsColor.Gold)-actuallyGold);
+        p.addGems(gemsColor.Gold, actuallyGold);
     }
     
     public boolean checkWin(Player p){
