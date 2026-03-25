@@ -31,6 +31,7 @@ public class Player {
         bonusGems.put(gemsColor.Red, 0);
         bonusGems.put(gemsColor.White, 0);
         nobleCards = new ArrayList<>();
+        reservedCards = new ArrayList<>();
     }
     public void setName(String name) {this.name = name;}
     public String getName() {return this.name;}

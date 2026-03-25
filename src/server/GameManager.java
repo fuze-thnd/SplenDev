@@ -179,20 +179,23 @@ public class GameManager {
     
     public ArrayList<NobleCards> checkNoble(Player p) {
         ArrayList<NobleCards> nobleCardsOnBoard = state.getNobleCardsOnBoard();
-        HashMap<Gems.gemsColor,Integer> pGems = p.getGems();
-        HashMap<Gems.gemsColor,Integer> pBonusGems = p.getBonusGems();
+        HashMap<gemsColor,Integer> pGems = p.getGems();
+        HashMap<gemsColor,Integer> pBonusGems = p.getBonusGems();
         ArrayList<NobleCards> result = new ArrayList<>();
         
         pBonusGems.forEach((key,value) ->
         pGems.merge(key, value, (v1, v2) -> (v1 + v2)));
         
         for (NobleCards i :nobleCardsOnBoard) {
-            HashMap<Gems.gemsColor,Integer> currentNobleCardCost = i.getCost();
-            boolean buyable = false;
-            for (gemsColor j : pGems.keySet()) {
-                buyable = Objects.equals(currentNobleCardCost.get(j), pGems.get(j));
+            HashMap<gemsColor,Integer> currentNobleCardCost = i.getCost();
+            boolean buyable = true;
+            for (gemsColor j : currentNobleCardCost.keySet()) {
+                if (pBonusGems.get(j) < currentNobleCardCost.get(j)) {
+                buyable = false;
+                break;
+                }
             }
-            if (buyable){
+            if (buyable) {
                 result.add(i);
             }
         }
