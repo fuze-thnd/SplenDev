@@ -54,7 +54,7 @@ public class GameManager {
         state.setPlayers(p);
     }
     
-    public boolean take3Gems(Player p, gemsColor g1, gemsColor g2, gemsColor g3) {
+    public synchronized boolean take3Gems(Player p, gemsColor g1, gemsColor g2, gemsColor g3) {
         boolean notGold = (g1 != gemsColor.Gold) && (g2 != gemsColor.Gold) && (g3 != gemsColor.Gold);
         boolean notSameColors = g1 != g2 && g1 != g3 && g2 != g3;
         boolean haveEnoughGem = state.getBankGems().get(g1) > 0 && state.getBankGems().get(g2) > 0 && state.getBankGems().get(g1) > 0;
@@ -71,7 +71,7 @@ public class GameManager {
         }
     }
     
-    public boolean take2Gems(Player p, gemsColor g) {
+    public synchronized boolean take2Gems(Player p, gemsColor g) {
         if (g != gemsColor.Gold && state.getBankGems().get(g) >= 4) {
             state.getBankGems().put(g, state.getBankGems().get(g)-2);
             p.addGems(g, 2);
@@ -106,7 +106,7 @@ public class GameManager {
         return goldNeeded <= goldAvailable;
     }
     
-    public boolean buyCard(Player p, DevelopmentCards card) {
+    public synchronized boolean buyCard(Player p, DevelopmentCards card) {
         if (!canPlayerBuyCard(p, card)) {
             return false;
         }
@@ -166,7 +166,7 @@ public class GameManager {
         state.setCardsOnBoard(cardsOnBoard);
     }
     
-    public boolean reserveCard(Player p, DevelopmentCards card) {
+    public synchronized boolean reserveCard(Player p, DevelopmentCards card) {
         if (p.getReservedCard().size() >= 3) {
             return false;
         }
@@ -179,7 +179,7 @@ public class GameManager {
         return true;
     }
     
-    public void sacrificeCard(Player p, Sacrificable card) {
+    public synchronized void sacrificeCard(Player p, Sacrificable card) {
         int bankGemsGold = state.getBankGems().get(gemsColor.Gold);
         int playerRefund = card.getDropRefund();
         int actuallyGold;
@@ -197,7 +197,7 @@ public class GameManager {
         return (p.getPrestigePoints() >= 15);
     }
     
-    public NobleCards buyNoble(Player p) {
+    public synchronized NobleCards buyNoble(Player p) {
         ArrayList<NobleCards> nobleCardsOnBoard = state.getNobleCardsOnBoard();
         HashMap<gemsColor,Integer> pBonusGems = p.getBonusGems();
         NobleCards noble = null;
@@ -223,7 +223,7 @@ public class GameManager {
         return noble;
     }
     
-    public boolean checkGems(Player p) {
+    public synchronized boolean checkGems(Player p) {
         HashMap<Gems.gemsColor,Integer> pGems = p.getGems();
         Integer sumGems = 0;
         for (gemsColor i : pGems.keySet()) {
@@ -249,7 +249,7 @@ public class GameManager {
         }
     }
     
-    public Player getWinner() {
+    public synchronized Player getWinner() {
         ArrayList<Player> winner = new ArrayList<>();
         for (Player p : state.getPlayers()) {
             if (p.getPrestigePoints() >= 15) {
