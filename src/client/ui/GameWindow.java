@@ -49,14 +49,6 @@ import java.awt.*;
             for(int i=0; i<5; i++){
                 JButton nobleCard = new JButton();
                 nobleCard.setPreferredSize(new Dimension(100,100));
-                try {
-                    ImageIcon noblePic = new ImageIcon("picname" + i + ".png");
-                    Image smallPic1 = noblePic.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
-                    nobleCard.setIcon(new ImageIcon(smallPic1));
-                }catch (Exception e){
-                    nobleCard.setText("No pic");
-                }
-
                 nobleCardLst.add(nobleCard);
                 noblePanel.add(nobleCard);
             }
@@ -67,38 +59,17 @@ import java.awt.*;
                 JButton level1Card = new JButton();
                 level1CardLst.add(level1Card);
                 level1Card.setPreferredSize(new Dimension(100,150));
-                try {
-                    ImageIcon level1Pic = new ImageIcon("picname" + i + ".png or jpg");
-                    Image smallPic2 = level1Pic.getImage().getScaledInstance(100,150,Image.SCALE_SMOOTH);
-                    level1Card.setIcon(new ImageIcon(smallPic2));
-                }catch (Exception e){
-                    level1Card.setText("No pic");
-                }
                 cardPanel2.add(level1Card);
             }
             for(int i=0; i<5; i++) {
                 JButton level2Card = new JButton();
                 level2Card.setPreferredSize(new Dimension(100,150));
-                try {
-                    ImageIcon level2Pic = new ImageIcon("picname" + i + ".png or jpg");
-                    Image smallPic3 = level2Pic.getImage().getScaledInstance(100,150,Image.SCALE_SMOOTH);
-                    level2Card.setIcon(new ImageIcon(smallPic3));
-                }catch (Exception e){
-                    level2Card.setText("No pic");
-                }
                 level2CardLst.add(level2Card);
                 cardPanel2.add(level2Card);
             }
             for(int i=0; i<5; i++) {
                 JButton level3Card = new JButton();
                 level3Card.setPreferredSize(new Dimension(100,150));
-                try {
-                    ImageIcon level3Pic = new ImageIcon("picname" + i + ".png or jpg");
-                    Image smallPic4 = level3Pic.getImage().getScaledInstance(100,150,Image.SCALE_SMOOTH);
-                    level3Card.setIcon(new ImageIcon(smallPic4));
-                }catch (Exception e){
-                    level3Card.setText("No pic");
-                }
                 level3CardLst.add(level3Card);
                 cardPanel2.add(level3Card);
             }
@@ -106,13 +77,6 @@ import java.awt.*;
             for(int i=0; i<6; i++) {
                 JButton gemCard = new JButton();
                 gemCard.setPreferredSize(new Dimension(60,60));
-                try {
-                    ImageIcon gemPic = new ImageIcon("picname" + i + ".png or jpg");
-                    Image smallPic5 = gemPic.getImage().getScaledInstance(100,150,Image.SCALE_SMOOTH);
-                    gemCard.setIcon(new ImageIcon(smallPic5));
-                }catch (Exception e){
-                    gemCard.setText("No pic");
-                }
                 gemCardLst.add(gemCard);
                 gemPanel.add(gemCard);
             }
