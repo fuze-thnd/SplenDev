@@ -42,7 +42,7 @@ import java.awt.*;
 
             //กำหนดขนาดฝั่งplayer
             rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS));
-            rightPanel.setPreferredSize(new Dimension(450,560));
+            rightPanel.setPreferredSize(new Dimension(450,638));
 
             //สร้างLayout Card
             JPanel noblePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
@@ -50,7 +50,7 @@ import java.awt.*;
                 JButton nobleCard = new JButton();
                 nobleCard.setPreferredSize(new Dimension(100,100));
                 try {
-                    ImageIcon noblePic = new ImageIcon("noble" + i + ".jpeg");
+                    ImageIcon noblePic = new ImageIcon("noble" + i + ".jpg");
                     Image sizeImg = noblePic.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
                     nobleCard.setIcon(new ImageIcon(sizeImg));
                 } catch (Exception e) {
@@ -67,7 +67,7 @@ import java.awt.*;
                 level1CardLst.add(level1Card);
                 level1Card.setPreferredSize(new Dimension(100,150));
                 try {
-                    ImageIcon level1Pic = new ImageIcon("noble" + i + ".jpeg");
+                    ImageIcon level1Pic = new ImageIcon("noble" + i + ".jpg");
                     Image sizeImg = level1Pic.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
                     level1Card.setIcon(new ImageIcon(sizeImg));
                 } catch (Exception e) {
@@ -79,7 +79,7 @@ import java.awt.*;
                 JButton level2Card = new JButton();
                 level2Card.setPreferredSize(new Dimension(100,150));
                 try {
-                    ImageIcon level2Pic = new ImageIcon("noble" + i + ".jpeg");
+                    ImageIcon level2Pic = new ImageIcon("noble" + i + ".jpg");
                     Image sizeImg = level2Pic.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
                     level2Card.setIcon(new ImageIcon(sizeImg));
                 } catch (Exception e) {
@@ -92,7 +92,7 @@ import java.awt.*;
                 JButton level3Card = new JButton();
                 level3Card.setPreferredSize(new Dimension(100,150));
                 try {
-                    ImageIcon level3Pic = new ImageIcon("noble" + i + ".jpeg");
+                    ImageIcon level3Pic = new ImageIcon("noble" + i + ".jpg");
                     Image sizeImg = level3Pic.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
                     level3Card.setIcon(new ImageIcon(sizeImg));
                 } catch (Exception e) {
@@ -106,7 +106,7 @@ import java.awt.*;
                 JButton gemCard = new JButton();
                 gemCard.setPreferredSize(new Dimension(60,60));
                 try {
-                    ImageIcon gemPic = new ImageIcon("noble" + i + ".jpeg");
+                    ImageIcon gemPic = new ImageIcon("noble" + i + ".jpg");
                     Image sizeImg = gemPic.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
                     gemCard.setIcon(new ImageIcon(sizeImg));
                 } catch (Exception e) {
@@ -482,8 +482,40 @@ import java.awt.*;
             lowp4.add(p4totalpoints);
 
 
+            //reserve panel
+            JPanel reservepanel = new JPanel();
+            reservepanel.setBorder(new LineBorder(Color.WHITE, 2, true));
+            reservepanel.setLayout(new BorderLayout());
+            reservepanel.setBackground(Color.GRAY);
+            reservepanel.setSize(300,100);
+            JPanel topreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            topreserve.setBackground(Color.GRAY);
+            reservepanel.add(topreserve, BorderLayout.NORTH);
+            JLabel reservecards = new JLabel("Reserve Cards");
+            reservecards.setForeground(Color.WHITE);
+            reservecards.setFont(new Font("Arial", Font.PLAIN, 15));
+            topreserve.add(reservecards);
+            JPanel inreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            inreserve.setPreferredSize(new Dimension(300,250));
+            inreserve.setBackground(Color.GRAY);
+            reservepanel.add(inreserve, BorderLayout.CENTER);
+            JPanel lowreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            lowreserve.setBackground(Color.GRAY);
+            reservepanel.add(lowreserve, BorderLayout.SOUTH);
 
-
+            //reserve cards
+            ImageIcon reservecard1pic = new ImageIcon("การ์ดสำรอง1.jpg");
+            JButton reservecard1 = new JButton(reservecard1pic);
+            reservecard1.setPreferredSize(new Dimension(50,100));
+            inreserve.add(reservecard1);
+            ImageIcon reservecard2pic = new ImageIcon("การ์ดสำรอง2.jpg");
+            JButton reservecard2 = new JButton(reservecard2pic);
+            reservecard2.setPreferredSize(new Dimension(50,100));
+            inreserve.add(reservecard2);
+            ImageIcon reservecard3pic = new ImageIcon("การ์ดสำรอง3.jpg");
+            JButton reservecard3 = new JButton(reservecard3pic);
+            reservecard3.setPreferredSize(new Dimension(50,100));
+            inreserve.add(reservecard3);
 
 
 
@@ -494,6 +526,8 @@ import java.awt.*;
             playerspanel.add(p3);
             playerspanel.add(Box.createVerticalStrut(10));
             playerspanel.add(p4);
+            playerspanel.add(Box.createVerticalStrut(10));
+            playerspanel.add(reservepanel);
 
             //players panel
 
