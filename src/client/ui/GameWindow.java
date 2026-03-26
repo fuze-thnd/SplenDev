@@ -82,7 +82,7 @@ import java.awt.*;
             }
 
             
-        ///players panel
+        //players panel
             JPanel playerspanel = new JPanel();
         playerspanel.setLayout(new BoxLayout(playerspanel, BoxLayout.Y_AXIS));
         playerspanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 0));
@@ -99,12 +99,12 @@ import java.awt.*;
         player1.setForeground(Color.WHITE);
         topp1.add(player1);
         p1.add(topp1, BorderLayout.NORTH);
-        ///inp1 คือ ช่องข้างในเอาไว้ใส่การ์ด
+        //inp1 คือ ช่องข้างในเอาไว้ใส่การ์ด
         JPanel inp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         inp1.setPreferredSize(new Dimension(300,250));
         inp1.setBackground(Color.GRAY);
         p1.add(inp1, BorderLayout.CENTER);
-        ///lowp1 คือ ช่องล่างสุดเอาไว้ใส่gem
+        //lowp1 คือ ช่องล่างสุดเอาไว้ใส่gem
         JPanel lowp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lowp1.setBackground(Color.GRAY);
         p1.add(lowp1, BorderLayout.SOUTH);
@@ -182,7 +182,7 @@ import java.awt.*;
         playerspanel.add(Box.createVerticalStrut(10));
         playerspanel.add(p4);
         
-        ///players panel
+        //players panel
 
 
 
