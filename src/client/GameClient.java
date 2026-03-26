@@ -2,6 +2,7 @@ package client;
 
 import java.io.*;
 import java.net.*;
+import shared.NetworkMessage;
 import shared.GameState;
 
 public class GameClient {
@@ -30,7 +31,10 @@ public class GameClient {
         this.host = host;
         this.port = port;
     }
-
+    
+    public void sendCommand(String cmd) {
+        sendRaw(cmd);
+    }
     public void connect(String playerName) throws IOException {
         this.playerName = playerName;
 
@@ -40,7 +44,7 @@ public class GameClient {
 
         connected = true;
 
-        sendRaw("JOIN:" + playerName);
+        sendRaw("INIT:" + playerName);
 
         Thread receiveThread = new Thread(this::receiveLoop, "ClientReceiver");
         receiveThread.setDaemon(true);
