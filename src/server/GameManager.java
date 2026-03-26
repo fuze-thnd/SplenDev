@@ -142,7 +142,7 @@ public class GameManager {
         }
         state.setBankGems(bankGems);
         p.addDevelopmentCards(card);
-        p.setPrestigePoints(p.getPrestigePoints() + card.getPrestigePoints());
+        card.addPlayerPrestigePoints(p);
         p.addBonusGems(card.getGemsColor());
         return true;
     }
@@ -226,5 +226,16 @@ public class GameManager {
                     state.getCardsOnBoard()[i][j] = state.getDevelopmentCardsLevel3().pop();
             }
         }
+    }
+    
+    public Player getWinner() {
+        ArrayList<Player> winner = new ArrayList<>();
+        for (Player p : state.getPlayers()) {
+            if (p.getPrestigePoints() >= 15) {
+                winner.add(p);
+            }
+        }
+        Collections.sort(winner, Comparator.comparing(Player::getDevelopmentCardSize)); // sort by development card size
+        return winner.getFirst();
     }
 }

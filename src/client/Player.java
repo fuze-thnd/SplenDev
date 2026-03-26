@@ -62,4 +62,5 @@ public class Player {
     public void addBonusGems(gemsColor g) {this.bonusGems.put(g, bonusGems.get(g)+1);}
     public ArrayList<DevelopmentCards> getReservedCard() {return reservedCards;}
     public void addReservedCard(DevelopmentCards card) {this.reservedCards.add(card);}
+    public int getDevelopmentCardSize() {return this.developmentCards.size();}
 }
