@@ -197,29 +197,30 @@ public class GameManager {
         return (p.getPrestigePoints() >= 15);
     }
     
-    public ArrayList<NobleCards> checkNoble(Player p) {
+    public NobleCards buyNoble(Player p) {
         ArrayList<NobleCards> nobleCardsOnBoard = state.getNobleCardsOnBoard();
-        HashMap<gemsColor,Integer> pGems = p.getGems();
         HashMap<gemsColor,Integer> pBonusGems = p.getBonusGems();
-        ArrayList<NobleCards> result = new ArrayList<>();
-        
-        pBonusGems.forEach((key,value) ->
-        pGems.merge(key, value, (v1, v2) -> (v1 + v2)));
+        NobleCards noble = null;
         
         for (NobleCards i :nobleCardsOnBoard) {
             HashMap<gemsColor,Integer> currentNobleCardCost = i.getCost();
             boolean buyable = true;
             for (gemsColor j : currentNobleCardCost.keySet()) {
                 if (pBonusGems.get(j) < currentNobleCardCost.get(j)) {
-                buyable = false;
-                break;
+                    buyable = false;
+                    break;
                 }
             }
             if (buyable) {
-                result.add(i);
+                noble = i;
+                p.addNobleCards(i);
+                i.addPlayerPrestigePoints(p);
+                nobleCardsOnBoard.remove(i);
+                state.setNobleCardsOnBoard(nobleCardsOnBoard);
+                break;
             }
         }
-        return result;
+        return noble;
     }
     
     public boolean checkGems(Player p) {
