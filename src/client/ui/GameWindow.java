@@ -17,7 +17,7 @@ import java.awt.*;
         private List<JButton> gemCardLst = new ArrayList<>();
 
         public GameWindow(){
-            //ตั้งค่่Layout MainWindow
+            //ตั้งค่าLayout MainWindow
             frame = new JFrame();
             mainPanel = new JPanel();
             leftPanel = new JPanel();
@@ -119,110 +119,110 @@ import java.awt.*;
             
         //players panel
             JPanel playerspanel = new JPanel();
-        playerspanel.setLayout(new BoxLayout(playerspanel, BoxLayout.Y_AXIS));
-        playerspanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 0));
-        
-        JPanel p1 = new JPanel();
-        p1.setBorder(new LineBorder(Color.WHITE, 2, true));
-        p1.setLayout(new BorderLayout());
-        p1.setBackground(Color.GRAY);
-        p1.setSize(300,100);
-        JPanel topp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topp1.setBackground(Color.GRAY);
-        JLabel player1 = new JLabel("Player1");
-        player1.setFont(new Font("Arial", Font.PLAIN, 15));
-        player1.setForeground(Color.WHITE);
-        topp1.add(player1);
-        p1.add(topp1, BorderLayout.NORTH);
-        //inp1 คือ ช่องข้างในเอาไว้ใส่การ์ด
-        JPanel inp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        inp1.setPreferredSize(new Dimension(300,250));
-        inp1.setBackground(Color.GRAY);
-        p1.add(inp1, BorderLayout.CENTER);
-        //lowp1 คือ ช่องล่างสุดเอาไว้ใส่gem
-        JPanel lowp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lowp1.setBackground(Color.GRAY);
-        p1.add(lowp1, BorderLayout.SOUTH);
-        
-        JPanel p2 = new JPanel();
-        p2.setBorder(new LineBorder(Color.WHITE, 2, true));
-        p2.setLayout(new BorderLayout());
-        p2.setBackground(Color.GRAY);
-        p2.setSize(300,100);
-        JPanel topp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topp2.setBackground(Color.GRAY);
-        JLabel player2 = new JLabel("Player2");
-        player2.setFont(new Font("Arial", Font.PLAIN, 15));
-        player2.setForeground(Color.WHITE);
-        topp2.add(player2);
-        p2.add(topp2, BorderLayout.NORTH);
-        JPanel inp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        inp2.setPreferredSize(new Dimension(300,250));
-        inp2.setBackground(Color.GRAY);
-        p2.add(inp2, BorderLayout.CENTER);
-        JPanel lowp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lowp2.setBackground(Color.GRAY);
-        p2.add(lowp2, BorderLayout.SOUTH);
-        
-        JPanel p3 = new JPanel();
-        p3.setBorder(new LineBorder(Color.WHITE, 2, true));
-        p3.setLayout(new BorderLayout());
-        p3.setBackground(Color.GRAY);
-        p3.setSize(300,100);
-        JPanel topp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topp3.setBackground(Color.GRAY);
-        p3.add(topp3, BorderLayout.NORTH);
-        JLabel player3 = new JLabel("Player3");
-        player3.setFont(new Font("Arial", Font.PLAIN, 15));
-        player3.setForeground(Color.WHITE);
-        topp3.add(player3);
-        JPanel inp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        inp3.setPreferredSize(new Dimension(300,250));
-        inp3.setBackground(Color.GRAY);
-        p3.add(inp3, BorderLayout.CENTER);
-        JPanel lowp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lowp3.setBackground(Color.GRAY);
-        p3.add(lowp3, BorderLayout.SOUTH);
-        
-        JPanel p4 = new JPanel();
-        p4.setBorder(new LineBorder(Color.WHITE, 2, true));
-        p4.setLayout(new BorderLayout());
-        p4.setBackground(Color.GRAY);
-        p4.setSize(300,100);
-        JPanel topp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topp4.setBackground(Color.GRAY);
-        p4.add(topp4, BorderLayout.NORTH);
-        JLabel player4 = new JLabel("Player4");
-        player4.setForeground(Color.WHITE);
-        player4.setFont(new Font("Arial", Font.PLAIN, 15));
-        topp4.add(player4);
-        JPanel inp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        inp4.setPreferredSize(new Dimension(300,250));
-        inp4.setBackground(Color.GRAY);
-        p4.add(inp4, BorderLayout.CENTER);
-        JPanel lowp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lowp4.setBackground(Color.GRAY);
-        p4.add(lowp4, BorderLayout.SOUTH);
-        
-        
-        
-        
-   
-        
-        playerspanel.add(p1);
-        playerspanel.add(Box.createVerticalStrut(10));
-        playerspanel.add(p2);
-        playerspanel.add(Box.createVerticalStrut(10));
-        playerspanel.add(p3);
-        playerspanel.add(Box.createVerticalStrut(10));
-        playerspanel.add(p4);
-        
-        //players panel
+            playerspanel.setLayout(new BoxLayout(playerspanel, BoxLayout.Y_AXIS));
+            playerspanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 0));
+
+            JPanel p1 = new JPanel();
+            p1.setBorder(new LineBorder(Color.WHITE, 2, true));
+            p1.setLayout(new BorderLayout());
+            p1.setBackground(Color.GRAY);
+            p1.setSize(300,100);
+            JPanel topp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            topp1.setBackground(Color.GRAY);
+            JLabel player1 = new JLabel("Player1");
+            player1.setFont(new Font("Arial", Font.PLAIN, 15));
+            player1.setForeground(Color.WHITE);
+            topp1.add(player1);
+            p1.add(topp1, BorderLayout.NORTH);
+            //inp1 คือ ช่องข้างในเอาไว้ใส่การ์ด
+            JPanel inp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            inp1.setPreferredSize(new Dimension(300,250));
+            inp1.setBackground(Color.GRAY);
+            p1.add(inp1, BorderLayout.CENTER);
+            //lowp1 คือ ช่องล่างสุดเอาไว้ใส่gem
+            JPanel lowp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            lowp1.setBackground(Color.GRAY);
+            p1.add(lowp1, BorderLayout.SOUTH);
+
+            JPanel p2 = new JPanel();
+            p2.setBorder(new LineBorder(Color.WHITE, 2, true));
+            p2.setLayout(new BorderLayout());
+            p2.setBackground(Color.GRAY);
+            p2.setSize(300,100);
+            JPanel topp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            topp2.setBackground(Color.GRAY);
+            JLabel player2 = new JLabel("Player2");
+            player2.setFont(new Font("Arial", Font.PLAIN, 15));
+            player2.setForeground(Color.WHITE);
+            topp2.add(player2);
+            p2.add(topp2, BorderLayout.NORTH);
+            JPanel inp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            inp2.setPreferredSize(new Dimension(300,250));
+            inp2.setBackground(Color.GRAY);
+            p2.add(inp2, BorderLayout.CENTER);
+            JPanel lowp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            lowp2.setBackground(Color.GRAY);
+            p2.add(lowp2, BorderLayout.SOUTH);
+
+            JPanel p3 = new JPanel();
+            p3.setBorder(new LineBorder(Color.WHITE, 2, true));
+            p3.setLayout(new BorderLayout());
+            p3.setBackground(Color.GRAY);
+            p3.setSize(300,100);
+            JPanel topp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            topp3.setBackground(Color.GRAY);
+            p3.add(topp3, BorderLayout.NORTH);
+            JLabel player3 = new JLabel("Player3");
+            player3.setFont(new Font("Arial", Font.PLAIN, 15));
+            player3.setForeground(Color.WHITE);
+            topp3.add(player3);
+            JPanel inp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            inp3.setPreferredSize(new Dimension(300,250));
+            inp3.setBackground(Color.GRAY);
+            p3.add(inp3, BorderLayout.CENTER);
+            JPanel lowp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            lowp3.setBackground(Color.GRAY);
+            p3.add(lowp3, BorderLayout.SOUTH);
+
+            JPanel p4 = new JPanel();
+            p4.setBorder(new LineBorder(Color.WHITE, 2, true));
+            p4.setLayout(new BorderLayout());
+            p4.setBackground(Color.GRAY);
+            p4.setSize(300,100);
+            JPanel topp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            topp4.setBackground(Color.GRAY);
+            p4.add(topp4, BorderLayout.NORTH);
+            JLabel player4 = new JLabel("Player4");
+            player4.setForeground(Color.WHITE);
+            player4.setFont(new Font("Arial", Font.PLAIN, 15));
+            topp4.add(player4);
+            JPanel inp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            inp4.setPreferredSize(new Dimension(300,250));
+            inp4.setBackground(Color.GRAY);
+            p4.add(inp4, BorderLayout.CENTER);
+            JPanel lowp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            lowp4.setBackground(Color.GRAY);
+            p4.add(lowp4, BorderLayout.SOUTH);
 
 
 
 
-            
+
+
+            playerspanel.add(p1);
+            playerspanel.add(Box.createVerticalStrut(10));
+            playerspanel.add(p2);
+            playerspanel.add(Box.createVerticalStrut(10));
+            playerspanel.add(p3);
+            playerspanel.add(Box.createVerticalStrut(10));
+            playerspanel.add(p4);
+
+            //players panel
+
+
+
+
+
             mainPanel.add(leftPanel);
             mainPanel.add(centerPanel);
             mainPanel.add(rightPanel);
@@ -234,7 +234,57 @@ import java.awt.*;
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+            //Glass Paneสำหรับขึ้นมาเมื่อถึงตาเล่นของผู้เล่น
+            JPanel glassAction = (JPanel) frame.getGlassPane();
+            glassAction.setLayout(new BorderLayout());
+            glassAction.setBackground(new Color(0, 0, 0, 100));
+            glassAction.setVisible(false);
+            //ปุ่มเลือกAction
+            JPanel insideGlass = new JPanel();
+            insideGlass.setLayout(new GridLayout(1, 4));
+            String[] button = {"Reserve", "Take 3 Tokens", "Take 2 Tokens", "Purchase"};
+            for (int i = 0; i < button.length ; i++){
+                JButton button1 = new JButton(button[i]);
+                insideGlass.add(button1);
+            }
+            glassAction.add(insideGlass, BorderLayout.CENTER);
+
+            //YouWin glass บอกผู้ชนะ
+
+            JPanel WinGlass = (JPanel) frame.getGlassPane();
+            WinGlass.setLayout(new BorderLayout());
+            WinGlass.setBackground(new Color(0, 0, 0, 100));
+            WinGlass.setVisible(false);
+
+            JLabel winnerLabel = new JLabel("You Win!");
+            winnerLabel.setFont(new Font("Arial", Font.BOLD, 40));
+            winnerLabel.setForeground(new Color(255, 215, 0)); // สีทอง
+            winnerLabel.setOpaque(true);
+            winnerLabel.setBackground(new Color(0,0,0,180)); // กึ่งโปร่ง
+            winnerLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 4)); // ขอบสีเหลือง
+            winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            winnerLabel.setVerticalAlignment(SwingConstants.CENTER);
+            WinGlass.add(winnerLabel);
+
+            //YouLose glass บอกผู้แพ้
+            JPanel LoseGlass = (JPanel) frame.getGlassPane();
+            LoseGlass.setLayout(new BorderLayout());
+            LoseGlass.setBackground(new Color(0, 0, 0, 100));
+            LoseGlass.setVisible(false);
+
+            JLabel loseLabel = new JLabel("You Lose!");
+            loseLabel.setFont(new Font("Arial", Font.BOLD, 40));
+            loseLabel.setForeground(new Color(255, 215, 0)); // สีทอง
+            loseLabel.setOpaque(true);
+            loseLabel.setBackground(new Color(0,0,0,180)); // กึ่งโปร่ง
+            loseLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 4)); // ขอบสีเหลือง
+            loseLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            loseLabel.setVerticalAlignment(SwingConstants.CENTER);
+            LoseGlass.add(loseLabel);
         }
+
+
+
         public List<JButton> getNobleCardLst(){
             return nobleCardLst;
         }
