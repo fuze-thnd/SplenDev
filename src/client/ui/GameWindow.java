@@ -42,7 +42,7 @@ import java.awt.*;
 
             //กำหนดขนาดฝั่งplayer
             rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS));
-            rightPanel.setPreferredSize(new Dimension(450,450));
+            rightPanel.setPreferredSize(new Dimension(450,560));
 
             //สร้างLayout Card
             JPanel noblePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
@@ -205,6 +205,284 @@ import java.awt.*;
             p4.add(lowp4, BorderLayout.SOUTH);
 
 
+            //cards and gems in players panel
+
+            //player1
+            JPanel p1whitecard = new JPanel();
+            p1whitecard.setPreferredSize(new Dimension(50,100));
+            p1whitecard.setBackground(Color.WHITE);
+            inp1.add(p1whitecard);
+            JLabel p1whitecardcount = new JLabel("0");
+            p1whitecard.add(p1whitecardcount);
+            JPanel p1bluecard = new JPanel();
+            p1bluecard.setPreferredSize(new Dimension(50,100));
+            inp1.add(p1bluecard);
+            p1bluecard.setBackground(Color.BLUE);
+            JLabel p1bluecardcount = new JLabel("0");
+            p1bluecard.add(p1bluecardcount);
+            JPanel p1greencard = new JPanel();
+            p1greencard.setPreferredSize(new Dimension(50,100));
+            p1greencard.setBackground(Color.GREEN);
+            inp1.add(p1greencard);
+            JLabel p1greencardcount = new JLabel("0");
+            p1greencard.add(p1greencardcount);
+            JPanel p1redcard = new JPanel();
+            p1redcard.setPreferredSize(new Dimension(50,100));
+            p1redcard.setBackground(Color.RED);
+            inp1.add(p1redcard);
+            JLabel p1redcardcount = new JLabel("0");
+            p1redcard.add(p1redcardcount);
+            JPanel p1blackcard = new JPanel();
+            p1blackcard.setPreferredSize(new Dimension(50,100));
+            p1blackcard.setBackground(Color.BLACK);
+            inp1.add(p1blackcard);
+            JLabel p1blackcardcount = new JLabel("0");
+            p1blackcardcount.setForeground(Color.WHITE);
+            p1blackcard.add(p1blackcardcount);
+
+            JPanel p1gemorange = new JPanel();
+            p1gemorange.setBackground(Color.ORANGE);
+            lowp1.add(p1gemorange);
+            JLabel p1gemorangecount = new JLabel("0");
+            p1gemorange.add(p1gemorangecount);
+            JPanel p1gemwhite = new JPanel();
+            p1gemwhite.setBackground(Color.WHITE);
+            lowp1.add(p1gemwhite);
+            JLabel p1gemwhitecount = new JLabel("0");
+            p1gemwhite.add(p1gemwhitecount);
+            JPanel p1gemblue = new JPanel();
+            p1gemblue.setBackground(Color.BLUE);
+            lowp1.add(p1gemblue);
+            JLabel p1gembluecount = new JLabel("0");
+            p1gemblue.add(p1gembluecount);
+            JPanel p1gemgreen = new JPanel();
+            p1gemgreen.setBackground(Color.GREEN);
+            lowp1.add(p1gemgreen);
+            JLabel p1gemgreencount = new JLabel("0");
+            p1gemgreen.add(p1gemgreencount);
+            JPanel p1gemred = new JPanel();
+            p1gemred.setBackground(Color.RED);
+            lowp1.add(p1gemred);
+            JLabel p1gemredcount = new JLabel("0");
+            p1gemred.add(p1gemredcount);
+            JPanel p1gemblack = new JPanel();
+            p1gemblack.setBackground(Color.BLACK);
+            lowp1.add(p1gemblack);
+            JLabel p1gemblackcount = new JLabel("0");
+            p1gemblackcount.setForeground(Color.WHITE);
+            p1gemblack.add(p1gemblackcount);
+
+            //player2
+            JPanel p2whitecard = new JPanel();
+            p2whitecard.setPreferredSize(new Dimension(50,100));
+            p2whitecard.setBackground(Color.WHITE);
+            inp2.add(p2whitecard);
+            JLabel p2whitecardcount = new JLabel("0");
+            p2whitecard.add(p2whitecardcount);
+            JPanel p2bluecard = new JPanel();
+            p2bluecard.setPreferredSize(new Dimension(50,100));
+            inp2.add(p2bluecard);
+            p2bluecard.setBackground(Color.BLUE);
+            JLabel p2bluecardcount = new JLabel("0");
+            p2bluecard.add(p2bluecardcount);
+            JPanel p2greencard = new JPanel();
+            p2greencard.setPreferredSize(new Dimension(50,100));
+            p2greencard.setBackground(Color.GREEN);
+            inp2.add(p2greencard);
+            JLabel p2greencardcount = new JLabel("0");
+            p2greencard.add(p2greencardcount);
+            JPanel p2redcard = new JPanel();
+            p2redcard.setPreferredSize(new Dimension(50,100));
+            p2redcard.setBackground(Color.RED);
+            inp2.add(p2redcard);
+            JLabel p2redcardcount = new JLabel("0");
+            p2redcard.add(p2redcardcount);
+            JPanel p2blackcard = new JPanel();
+            p2blackcard.setPreferredSize(new Dimension(50,100));
+            p2blackcard.setBackground(Color.BLACK);
+            inp2.add(p2blackcard);
+            JLabel p2blackcardcount = new JLabel("0");
+            p2blackcardcount.setForeground(Color.WHITE);
+            p2blackcard.add(p2blackcardcount);
+
+            JPanel p2gemorange = new JPanel();
+            p2gemorange.setBackground(Color.ORANGE);
+            lowp2.add(p2gemorange);
+            JLabel p2gemorangecount = new JLabel("0");
+            p2gemorange.add(p2gemorangecount);
+            JPanel p2gemwhite = new JPanel();
+            p2gemwhite.setBackground(Color.WHITE);
+            lowp2.add(p2gemwhite);
+            JLabel p2gemwhitecount = new JLabel("0");
+            p2gemwhite.add(p2gemwhitecount);
+            JPanel p2gemblue = new JPanel();
+            p2gemblue.setBackground(Color.BLUE);
+            lowp2.add(p2gemblue);
+            JLabel p2gembluecount = new JLabel("0");
+            p2gemblue.add(p2gembluecount);
+            JPanel p2gemgreen = new JPanel();
+            p2gemgreen.setBackground(Color.GREEN);
+            lowp2.add(p2gemgreen);
+            JLabel p2gemgreencount = new JLabel("0");
+            p2gemgreen.add(p2gemgreencount);
+            JPanel p2gemred = new JPanel();
+            p2gemred.setBackground(Color.RED);
+            lowp2.add(p2gemred);
+            JLabel p2gemredcount = new JLabel("0");
+            p2gemred.add(p2gemredcount);
+            JPanel p2gemblack = new JPanel();
+            p2gemblack.setBackground(Color.BLACK);
+            lowp2.add(p2gemblack);
+            JLabel p2gemblackcount = new JLabel("0");
+            p2gemblackcount.setForeground(Color.WHITE);
+            p2gemblack.add(p2gemblackcount);
+
+            //player3
+            JPanel p3whitecard = new JPanel();
+            p3whitecard.setPreferredSize(new Dimension(50,100));
+            p3whitecard.setBackground(Color.WHITE);
+            inp3.add(p3whitecard);
+            JLabel p3whitecardcount = new JLabel("0");
+            p3whitecard.add(p3whitecardcount);
+            JPanel p3bluecard = new JPanel();
+            p3bluecard.setPreferredSize(new Dimension(50,100));
+            inp3.add(p3bluecard);
+            p3bluecard.setBackground(Color.BLUE);
+            JLabel p3bluecardcount = new JLabel("0");
+            p3bluecard.add(p3bluecardcount);
+            JPanel p3greencard = new JPanel();
+            p3greencard.setPreferredSize(new Dimension(50,100));
+            p3greencard.setBackground(Color.GREEN);
+            inp3.add(p3greencard);
+            JLabel p3greencardcount = new JLabel("0");
+            p3greencard.add(p3greencardcount);
+            JPanel p3redcard = new JPanel();
+            p3redcard.setPreferredSize(new Dimension(50,100));
+            p3redcard.setBackground(Color.RED);
+            inp3.add(p3redcard);
+            JLabel p3redcardcount = new JLabel("0");
+            p3redcard.add(p3redcardcount);
+            JPanel p3blackcard = new JPanel();
+            p3blackcard.setPreferredSize(new Dimension(50,100));
+            p3blackcard.setBackground(Color.BLACK);
+            inp3.add(p3blackcard);
+            JLabel p3blackcardcount = new JLabel("0");
+            p3blackcardcount.setForeground(Color.WHITE);
+            p3blackcard.add(p3blackcardcount);
+
+            JPanel p3gemorange = new JPanel();
+            p3gemorange.setBackground(Color.ORANGE);
+            lowp3.add(p3gemorange);
+            JLabel p3gemorangecount = new JLabel("0");
+            p3gemorange.add(p3gemorangecount);
+            JPanel p3gemwhite = new JPanel();
+            p3gemwhite.setBackground(Color.WHITE);
+            lowp3.add(p3gemwhite);
+            JLabel p3gemwhitecount = new JLabel("0");
+            p3gemwhite.add(p3gemwhitecount);
+            JPanel p3gemblue = new JPanel();
+            p3gemblue.setBackground(Color.BLUE);
+            lowp3.add(p3gemblue);
+            JLabel p3gembluecount = new JLabel("0");
+            p3gemblue.add(p3gembluecount);
+            JPanel p3gemgreen = new JPanel();
+            p3gemgreen.setBackground(Color.GREEN);
+            lowp3.add(p3gemgreen);
+            JLabel p3gemgreencount = new JLabel("0");
+            p3gemgreen.add(p3gemgreencount);
+            JPanel p3gemred = new JPanel();
+            p3gemred.setBackground(Color.RED);
+            lowp3.add(p3gemred);
+            JLabel p3gemredcount = new JLabel("0");
+            p3gemred.add(p3gemredcount);
+            JPanel p3gemblack = new JPanel();
+            p3gemblack.setBackground(Color.BLACK);
+            lowp3.add(p3gemblack);
+            JLabel p3gemblackcount = new JLabel("0");
+            p3gemblackcount.setForeground(Color.WHITE);
+            p3gemblack.add(p3gemblackcount);
+
+            //player4
+            JPanel p4whitecard = new JPanel();
+            p4whitecard.setPreferredSize(new Dimension(50,100));
+            p4whitecard.setBackground(Color.WHITE);
+            inp4.add(p4whitecard);
+            JLabel p4whitecardcount = new JLabel("0");
+            p4whitecard.add(p4whitecardcount);
+            JPanel p4bluecard = new JPanel();
+            p4bluecard.setPreferredSize(new Dimension(50,100));
+            inp4.add(p4bluecard);
+            p4bluecard.setBackground(Color.BLUE);
+            JLabel p4bluecardcount = new JLabel("0");
+            p4bluecard.add(p4bluecardcount);
+            JPanel p4greencard = new JPanel();
+            p4greencard.setPreferredSize(new Dimension(50,100));
+            p4greencard.setBackground(Color.GREEN);
+            inp4.add(p4greencard);
+            JLabel p4greencardcount = new JLabel("0");
+            p4greencard.add(p4greencardcount);
+            JPanel p4redcard = new JPanel();
+            p4redcard.setPreferredSize(new Dimension(50,100));
+            p4redcard.setBackground(Color.RED);
+            inp4.add(p4redcard);
+            JLabel p4redcardcount = new JLabel("0");
+            p4redcard.add(p4redcardcount);
+            JPanel p4blackcard = new JPanel();
+            p4blackcard.setPreferredSize(new Dimension(50,100));
+            p4blackcard.setBackground(Color.BLACK);
+            inp4.add(p4blackcard);
+            JLabel p4blackcardcount = new JLabel("0");
+            p4blackcardcount.setForeground(Color.WHITE);
+            p4blackcard.add(p4blackcardcount);
+
+            JPanel p4gemorange = new JPanel();
+            p4gemorange.setBackground(Color.ORANGE);
+            lowp4.add(p4gemorange);
+            JLabel p4gemorangecount = new JLabel("0");
+            p4gemorange.add(p4gemorangecount);
+            JPanel p4gemwhite = new JPanel();
+            p4gemwhite.setBackground(Color.WHITE);
+            lowp4.add(p4gemwhite);
+            JLabel p4gemwhitecount = new JLabel("0");
+            p4gemwhite.add(p4gemwhitecount);
+            JPanel p4gemblue = new JPanel();
+            p4gemblue.setBackground(Color.BLUE);
+            lowp4.add(p4gemblue);
+            JLabel p4gembluecount = new JLabel("0");
+            p4gemblue.add(p4gembluecount);
+            JPanel p4gemgreen = new JPanel();
+            p4gemgreen.setBackground(Color.GREEN);
+            lowp4.add(p4gemgreen);
+            JLabel p4gemgreencount = new JLabel("0");
+            p4gemgreen.add(p4gemgreencount);
+            JPanel p4gemred = new JPanel();
+            p4gemred.setBackground(Color.RED);
+            lowp4.add(p4gemred);
+            JLabel p4gemredcount = new JLabel("0");
+            p4gemred.add(p4gemredcount);
+            JPanel p4gemblack = new JPanel();
+            p4gemblack.setBackground(Color.BLACK);
+            lowp4.add(p4gemblack);
+            JLabel p4gemblackcount = new JLabel("0");
+            p4gemblackcount.setForeground(Color.WHITE);
+            p4gemblack.add(p4gemblackcount);
+
+            //players total points
+            JLabel p1totalpoints = new JLabel("Total points: 0");
+            p1totalpoints.setForeground(Color.WHITE);
+            lowp1.add(p1totalpoints);
+            JLabel p2totalpoints = new JLabel("Total points: 0");
+            p2totalpoints.setForeground(Color.WHITE);
+            lowp2.add(p2totalpoints);
+            JLabel p3totalpoints = new JLabel("Total points: 0");
+            p3totalpoints.setForeground(Color.WHITE);
+            lowp3.add(p3totalpoints);
+            JLabel p4totalpoints = new JLabel("Total points: 0");
+            p4totalpoints.setForeground(Color.WHITE);
+            lowp4.add(p4totalpoints);
+
+
+
 
 
 
@@ -234,6 +512,7 @@ import java.awt.*;
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
             //Glass Paneสำหรับขึ้นมาเมื่อถึงตาเล่นของผู้เล่น
             JPanel glassAction = (JPanel) frame.getGlassPane();
             glassAction.setLayout(new BorderLayout());
@@ -249,8 +528,8 @@ import java.awt.*;
             }
             glassAction.add(insideGlass, BorderLayout.CENTER);
 
-            //YouWin glass บอกผู้ชนะ
 
+            //YouWin glass บอกผู้ชนะ
             JPanel WinGlass = (JPanel) frame.getGlassPane();
             WinGlass.setLayout(new BorderLayout());
             WinGlass.setBackground(new Color(0, 0, 0, 100));
@@ -265,6 +544,7 @@ import java.awt.*;
             winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
             winnerLabel.setVerticalAlignment(SwingConstants.CENTER);
             WinGlass.add(winnerLabel);
+
 
             //YouLose glass บอกผู้แพ้
             JPanel LoseGlass = (JPanel) frame.getGlassPane();
