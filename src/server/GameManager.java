@@ -145,11 +145,7 @@ public class GameManager {
         card.addPlayerPrestigePoints(p);
         p.addBonusGems(card.getGemsColor());
         // remove card on board
-        int[] index = findDevelopmentCardIndex(card);
-        int i = index[0], j = index[1];
-        DevelopmentCards[][] cardsOnBoard = state.getCardsOnBoard();
-        cardsOnBoard[i][j] = null;
-        state.setCardsOnBoard(cardsOnBoard);
+        removeDevelopmentCardOnboard(card);
         return true;
     }
     
@@ -162,6 +158,14 @@ public class GameManager {
         return null;
     }
     
+    public void removeDevelopmentCardOnboard(DevelopmentCards card) {
+        int[] index = findDevelopmentCardIndex(card);
+        int i = index[0], j = index[1];
+        DevelopmentCards[][] cardsOnBoard = state.getCardsOnBoard();
+        cardsOnBoard[i][j] = null;
+        state.setCardsOnBoard(cardsOnBoard);
+    }
+    
     public boolean reserveCard(Player p, DevelopmentCards card) {
         if (p.getReservedCard().size() >= 3) {
             return false;
@@ -171,6 +175,7 @@ public class GameManager {
             state.getBankGems().put(gemsColor.Gold, state.getBankGems().get(gemsColor.Gold)-1);
         }
         p.addReservedCard(card);
+        removeDevelopmentCardOnboard(card);
         return true;
     }
     
