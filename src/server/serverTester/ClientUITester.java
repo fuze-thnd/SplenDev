@@ -2,6 +2,7 @@ package server.serverTester;
 
 import server.PlayerHandler;
 import server.RoomHandler;
+import shared.DevelopmentCards;
 import shared.Gems;
 import shared.NobleCards;
 
@@ -107,66 +108,36 @@ public class ClientUITester implements ActionListener {
             tokensPanel.add(panel);
         }
 
+        tokensPanel.revalidate();
+        tokensPanel.repaint();
+
 //        Noble card
         developmentCardsPanel.removeAll();
         for(NobleCards nc : currentRoom.getShowNobleCard()){
-            JPanel cardPanel = new JPanel(new BorderLayout());cardPanel.setPreferredSize(new Dimension(150, 210));
-
-            JLabel pointsLabel = new JLabel(nc.getPrestigePoints() + "", SwingConstants.LEFT);
-            pointsLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
-            cardPanel.add(pointsLabel, BorderLayout.NORTH);
-
-            JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-            bottomPanel.setOpaque(false);
-
-            for(Gems.gemsColor color : Gems.gemsColor.values()){
-                if(color.equals(Gems.gemsColor.Gold)) continue;
-
-                Integer costAmount = (Integer) nc.getCost().get(color);
-                if(costAmount != null && costAmount > 0){
-                    JLabel label = new JLabel(costAmount + "", SwingConstants.CENTER);
-                    label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-
-                    label.setPreferredSize(new Dimension(25, 35));
-                    label.setBackground(getGemColor(color));
-                    label.setOpaque(true);
-
-                    bottomPanel.add(label);
-                }
-            }
-            cardPanel.add(bottomPanel, BorderLayout.SOUTH);
-            developmentCardsPanel.add(cardPanel);
+            developmentCardsPanel.add(createNobleCard(nc));
         }
 
         //        Dvclv3 Card
-        for(int i = 0;i < 5;i++){
-            JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panel.setBackground(Color.white);
-            panel.setPreferredSize(new Dimension(150, 210));
-            developmentCardsPanel.add(panel);
+        developmentCardsPanel.add(createDevelopmentCardsPanel());
+
+        for(DevelopmentCards dc : currentRoom.getShowCardsLv3()){
+            developmentCardsPanel.add(createDevelopmentCardsPanel(dc));
         }
 
         //        Dvclv2 Card
-        for(int i = 0;i < 5;i++){
-            JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panel.setBackground(Color.white);
-            panel.setPreferredSize(new Dimension(150, 210));
-            developmentCardsPanel.add(panel);
+        developmentCardsPanel.add(createDevelopmentCardsPanel());
+        for(DevelopmentCards dc : currentRoom.getShowCardsLv2()){
+            developmentCardsPanel.add(createDevelopmentCardsPanel(dc));
         }
 
         //        Dvclv1 Card
-        for(int i = 0;i < 5;i++){
-            JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panel.setBackground(Color.white);
-            panel.setPreferredSize(new Dimension(150, 210));
-            developmentCardsPanel.add(panel);
+        developmentCardsPanel.add(createDevelopmentCardsPanel());
+        for(DevelopmentCards dc : currentRoom.getShowCardsLv1()){
+            developmentCardsPanel.add(createDevelopmentCardsPanel(dc));
         }
 
         developmentCardsPanel.revalidate();
         developmentCardsPanel.repaint();
-
-        tokensPanel.revalidate();
-        tokensPanel.repaint();
     }
 
     private Color getGemColor(Gems.gemsColor color){
@@ -206,6 +177,115 @@ public class ClientUITester implements ActionListener {
         return null;
     }
 
+    private JPanel createNobleCard(NobleCards nc){
+        NobleCardJPanel panel = new NobleCardJPanel(new BorderLayout());
+        panel.setImage(nc.getImageName());
+        panel.setPreferredSize(new Dimension(150, 150));
+
+        OutlineJLabel pointsLabel = new OutlineJLabel(nc.getPrestigePoints() + "", SwingConstants.LEFT);
+        pointsLabel.setOutlineColor(Color.black);
+        pointsLabel.setForeground(Color.WHITE);
+        pointsLabel.setOpaque(false);
+        pointsLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        pointsLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
+        panel.add(pointsLabel, BorderLayout.NORTH);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        bottomPanel.setOpaque(false);
+
+        for(Gems.gemsColor color : Gems.gemsColor.values()){
+            if(color.equals(Gems.gemsColor.Gold)) continue;
+
+            Integer costAmount = (Integer) nc.getCost().get(color);
+            if(costAmount != null && costAmount > 0){
+                JLabel label = new JLabel(costAmount + "", SwingConstants.CENTER);
+                label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+
+                label.setPreferredSize(new Dimension(25, 35));
+                label.setBackground(getGemColor(color));
+                label.setOpaque(true);
+
+                if(color.equals(Gems.gemsColor.Blue) || color.equals(Gems.gemsColor.Black)){
+                    label.setForeground(Color.WHITE);
+                }else{
+                    label.setForeground(Color.BLACK);
+                }
+
+                bottomPanel.add(label);
+            }
+        }
+        panel.add(bottomPanel, BorderLayout.SOUTH);
+        return panel;
+    }
+
+    private JPanel createNobleCard(){
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setBackground(Color.white);
+        panel.setPreferredSize(new Dimension(150, 150));
+        return panel;
+    }
+
+    private JPanel createDevelopmentCardsPanel(){
+        ShuffleCardJPanel panel = new ShuffleCardJPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setBackground(Color.white);
+        panel.setPreferredSize(new Dimension(150, 210));
+        return panel;
+    }
+
+    private JPanel createDevelopmentCardsPanel(DevelopmentCards dc){
+        DevelopmentCardJPanel panel = new DevelopmentCardJPanel(new BorderLayout());
+        panel.setImage(dc.getImageName());
+        panel.setBackground(Color.white);
+        panel.setPreferredSize(new Dimension(150, 210));
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
+
+        if (dc.getPrestigePoints() > 0) {
+            OutlineJLabel pointsLabel = new OutlineJLabel(dc.getPrestigePoints() + "", SwingConstants.LEFT);
+            pointsLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
+            pointsLabel.setOutlineColor(Color.black);
+            pointsLabel.setForeground(Color.WHITE);
+            pointsLabel.setOpaque(false);
+            pointsLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 0, 0));
+            topPanel.add(pointsLabel, BorderLayout.WEST);
+        }
+
+        JPanel bonusPanel = new JPanel(new BorderLayout());
+        bonusPanel.setPreferredSize(new Dimension(40, 40));
+        bonusPanel.setBackground(getGemColor(dc.getGemsColor()));
+        bonusPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        topPanel.add(bonusPanel, BorderLayout.EAST);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        bottomPanel.setOpaque(false);
+
+        for (Gems.gemsColor color : Gems.gemsColor.values()) {
+            if (color.equals(Gems.gemsColor.Gold)) continue;
+
+            Integer costAmount = (Integer) dc.getCost().get(color);
+            if (costAmount != null && costAmount > 0) {
+                JLabel label = new JLabel(costAmount + "", SwingConstants.CENTER);
+                label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+                label.setPreferredSize(new Dimension(25, 35));
+                label.setBackground(getGemColor(color));
+                label.setOpaque(true);
+                if(color.equals(Gems.gemsColor.Blue) || color.equals(Gems.gemsColor.Black)){
+                    label.setForeground(Color.WHITE);
+                }else{
+                    label.setForeground(Color.BLACK);
+                }
+
+                bottomPanel.add(label);
+            }
+        }
+        panel.add(bottomPanel, BorderLayout.SOUTH);
+
+        return panel;
+    }
+
     private JPanel createGamePage(){
         JPanel gamePagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -215,34 +295,22 @@ public class ClientUITester implements ActionListener {
 
         //        Noble Card
         for(int i = 0;i < 5;i++){
-            JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panel.setBackground(Color.white);
-            panel.setPreferredSize(new Dimension(150, 210));
-            developmentCardsPanel.add(panel);
+            developmentCardsPanel.add(createNobleCard());
         }
 
         //        Dvclv3 Card
         for(int i = 0;i < 5;i++){
-            JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panel.setBackground(Color.white);
-            panel.setPreferredSize(new Dimension(150, 210));
-            developmentCardsPanel.add(panel);
+            developmentCardsPanel.add(createDevelopmentCardsPanel());
         }
 
         //        Dvclv2 Card
         for(int i = 0;i < 5;i++){
-            JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panel.setBackground(Color.white);
-            panel.setPreferredSize(new Dimension(150, 210));
-            developmentCardsPanel.add(panel);
+            developmentCardsPanel.add(createDevelopmentCardsPanel());
         }
 
         //        Dvclv1 Card
         for(int i = 0;i < 5;i++){
-            JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panel.setBackground(Color.white);
-            panel.setPreferredSize(new Dimension(150, 210));
-            developmentCardsPanel.add(panel);
+            developmentCardsPanel.add(createDevelopmentCardsPanel());
         }
 
         tokensPanel = new  JPanel();

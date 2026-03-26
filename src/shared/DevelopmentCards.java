@@ -8,11 +8,18 @@ import java.util.*;
 
 public class DevelopmentCards extends Cards implements Sacrificable, Serializable {
     private gemsColor bonusGemsColor;
-    public DevelopmentCards(int id, int prestigePoints, HashMap cost, gemsColor bonusGemsColor) {
+    private String imageName;
+
+    public DevelopmentCards(int id, int prestigePoints, HashMap cost, gemsColor bonusGemsColor, String imageName) {
         super(id, prestigePoints, cost);
         setGemsColor(bonusGemsColor);
+        this.imageName = imageName;
     }
-    
+
+    public String getImageName() {
+        return imageName;
+    }
+
     public void setGemsColor(gemsColor gemsColor) {this.bonusGemsColor = gemsColor;}
     public gemsColor getGemsColor() {return bonusGemsColor;}
     
