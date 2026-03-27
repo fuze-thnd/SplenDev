@@ -42,7 +42,7 @@ import java.awt.*;
 
             //กำหนดขนาดฝั่งplayer
             rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS));
-            rightPanel.setPreferredSize(new Dimension(450,638));
+            rightPanel.setPreferredSize(new Dimension(450,730));
 
             //สร้างLayout Card
             JPanel noblePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
@@ -120,7 +120,7 @@ import java.awt.*;
         //players panel
             JPanel playerspanel = new JPanel();
             playerspanel.setLayout(new BoxLayout(playerspanel, BoxLayout.Y_AXIS));
-            playerspanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 0));
+            playerspanel.setBorder(BorderFactory.createEmptyBorder(53, 50, 10, 0));
 
             JPanel p1 = new JPanel();
             p1.setBorder(new LineBorder(Color.WHITE, 2, true));
