@@ -198,8 +198,12 @@ public class GameManager {
         p.addDevelopmentCards(card);
         card.addPlayerPrestigePoints(p);
         p.addBonusGems(card.getGemsColor());
-        // remove card on board
-        removeDevelopmentCardOnboard(card);
+        // remove card
+        if (p.getReservedCard().contains(card)) {
+            p.getReservedCard().remove(card);
+        } else {
+            removeDevelopmentCardOnboard(card);
+        }
         return true;
     }
     
