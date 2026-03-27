@@ -1,19 +1,18 @@
 package server;
 
-import shared.Gems;
+import client.Player;
+import shared.NetworkMessage;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
 
 public class PlayerHandler implements Serializable {
-    private String name;
+    private Player player;
     private transient RoomHandler currentRoom;
     private final transient Socket socket;
     private transient ObjectInputStream inFromClient;
     private transient ObjectOutputStream outToClient;
     private transient Thread readThread;
-    private HashMap<Gems.gemsColor, Integer> gems;
     private boolean isRunning = false;
     private transient GameServer gs = GameServer.getInstance();
 
@@ -37,6 +36,8 @@ public class PlayerHandler implements Serializable {
 
                     if(objectFromClient instanceof String message){
                         handleCommandFromClient(message);
+                    } else if (objectFromClient instanceof NetworkMessage msg){
+                        handleCommandFromClient(msg);
                     }
                 }
             }catch (IOException | ClassNotFoundException e){
@@ -64,7 +65,7 @@ public class PlayerHandler implements Serializable {
 
         switch (parts[0]){
             case "INIT":
-                this.name = parts[1];
+                player = new Player(parts[1]);
                 send("CONNECTED");
                 sendRefreshRoomListCommand();
                 break;
@@ -93,10 +94,17 @@ public class PlayerHandler implements Serializable {
         }
     }
 
+    // Overload
+    private void handleCommandFromClient(NetworkMessage msg){
+        if (currentRoom != null) {
+            currentRoom.handleGameAction(this, msg);
+        }
+    }
+
     private void disconnectFromRoom(){
         if(currentRoom != null){
             currentRoom.removePlayer(this);
-            for(PlayerHandler p : currentRoom.getPlayers()){
+            for(PlayerHandler p : currentRoom.getPlayersHandler()){
                 p.send("REFRESH_LOBBY");
                 p.send(currentRoom);
             }
@@ -121,7 +129,7 @@ public class PlayerHandler implements Serializable {
             if (outToClient != null) outToClient.close();
             if (socket != null && !socket.isClosed()) socket.close();
 
-            log("Player " + name + " disconnected.");
+            log("Player " + getName() + " disconnected.");
         }catch (IOException e){
             //
         }
@@ -132,7 +140,7 @@ public class PlayerHandler implements Serializable {
             outToClient.reset();
             outToClient.writeObject(object);
         }catch(IOException e){
-            error("Failed to send object to " + this.name + ". Disconnecting...");
+            error("Failed to send object to " + getName() + ". Disconnecting...");
             handleDisconnect();
         }
     }
@@ -141,7 +149,7 @@ public class PlayerHandler implements Serializable {
         try{
             outToClient.writeObject("MESSAGE:"+message);
         }catch(IOException e){
-            error("Failed to send message to " + this.name + ". Disconnecting...");
+            error("Failed to send message to " + getName() + ". Disconnecting...");
             handleDisconnect();
         }
     }
@@ -155,14 +163,9 @@ public class PlayerHandler implements Serializable {
             if(roomHandler.addPlayer(this)){
                 currentRoom = roomHandler;
 //                sendMessage("Room with code " + code + " joined.");
-                gs.log("Player " + name + " joined room " + currentRoom.getRoomName() + "." + "( " + currentRoom.getSize() + " / " + gs.getMaxPlayer() + " )");
+                gs.log("Player " + getName() + " joined room " + currentRoom.getRoomName() + "." + "( " + currentRoom.getSize() + " / " + gs.getMaxPlayer() + " )");
                 currentRoom.broadcastLobbyMessage(getName() + " has joined the room!");
             }
-        }
-
-        this.gems = new HashMap<>();
-        for(Gems.gemsColor color : Gems.gemsColor.values()) {
-            gems.put(color, 0);
         }
 
         send("JOIN_ROOM_SUCCESS");
@@ -173,13 +176,13 @@ public class PlayerHandler implements Serializable {
     public void disconnect(){
         if(currentRoom != null){
             currentRoom.removePlayer(this);
-            sendMessage("Player " + this.name + " has disconnected.");
-            gs.log("Player " + name + " disconnected room " + currentRoom.getRoomName() + "." + "( " + currentRoom.getSize() + " / " + gs.getMaxPlayer() + " )");
+            sendMessage("Player " + getName() + " has disconnected.");
+            gs.log("Player " + getName() + " disconnected room " + currentRoom.getRoomName() + "." + "( " + currentRoom.getSize() + " / " + gs.getMaxPlayer() + " )");
         }
     }
 
     public String getName(){
-        return this.name;
+        return player.getName();
     }
 
     private void error(String message){
@@ -188,5 +191,9 @@ public class PlayerHandler implements Serializable {
 
     private void log(String message){
         System.out.println("[ Player Handler ] " + message);
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

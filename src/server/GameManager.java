@@ -53,6 +53,49 @@ public class GameManager {
         Collections.shuffle(p);
         state.setPlayers(p);
     }
+
+    public synchronized boolean processAction(Player sender, NetworkMessage msg) {
+        Player currentPlayer = state.getPlayers().get(state.getCurrentPlayerIndex());
+        if (!currentPlayer.getName().equals(sender.getName())) {
+            return false;
+        }
+
+        boolean success = false;
+        String command = msg.getCommand();
+
+        try {
+            ArrayList<String> data = (ArrayList) msg.getData();
+            if (command.equals("TAKE_3_GEMS")) {
+                gemsColor color1 = gemsColor.valueOf(data.get(1));
+                gemsColor color2 = gemsColor.valueOf(data.get(2));
+                gemsColor color3 = gemsColor.valueOf(data.get(3));
+                success = take3Gems(currentPlayer, color1, color2, color3);
+            } else if (command.equals("TAKE_2_GEMS")) {
+                gemsColor color1 = gemsColor.valueOf(data.get(1));
+                success = take2Gems(currentPlayer, color1);
+            } else if (command.equals("BUY_CARD")) {
+                int id = Integer.parseInt(data.get(1));
+                DevelopmentCards card = findCardById(currentPlayer, id);
+                if (card != null) {
+                    success = buyCard(currentPlayer, card);
+                }
+            } else if (command.equals("RESERVE_CARD")) {
+                int id = Integer.parseInt(data.get(1));
+                DevelopmentCards card = findCardById(currentPlayer, id);
+                success = reserveCard(currentPlayer, card);
+            }
+        } catch (Exception e) {
+            return false;
+        }
+
+        if (success) {
+            buyNoble(currentPlayer);
+            refillDevelopmentCards();
+            int nextTurn = (state.getCurrentPlayerIndex() + 1) % state.getNumberOfPlayers();
+            state.setCurrentPlayerIndex(nextTurn);
+        }
+        return success;
+    }
     
     public synchronized boolean take3Gems(Player p, gemsColor g1, gemsColor g2, gemsColor g3) {
         boolean notGold = (g1 != gemsColor.Gold) && (g2 != gemsColor.Gold) && (g3 != gemsColor.Gold);
@@ -174,6 +217,28 @@ public class GameManager {
         DevelopmentCards[][] cardsOnBoard = state.getCardsOnBoard();
         cardsOnBoard[i][j] = null;
         state.setCardsOnBoard(cardsOnBoard);
+    }
+
+    public DevelopmentCards findCardById(Player p, int id) {
+        // Search on the Board (3 rows, 4 columns)
+        DevelopmentCards[][] board = state.getCardsOnBoard();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                DevelopmentCards card = board[i][j];
+                if (card != null && card.getId() == id) {
+                    return card;
+                }
+            }
+        }
+
+        // Search in the Player's Reserved Cards
+        for (DevelopmentCards card : p.getReservedCard()) {
+            if (card.getId() == id) {
+                return card;
+            }
+        }
+
+        return null; // Card not found
     }
     
     public synchronized boolean reserveCard(Player p, DevelopmentCards card) {
