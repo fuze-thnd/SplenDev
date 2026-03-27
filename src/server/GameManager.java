@@ -57,8 +57,13 @@ public class GameManager {
     public synchronized boolean take3Gems(Player p, gemsColor g1, gemsColor g2, gemsColor g3) {
         boolean notGold = (g1 != gemsColor.Gold) && (g2 != gemsColor.Gold) && (g3 != gemsColor.Gold);
         boolean notSameColors = g1 != g2 && g1 != g3 && g2 != g3;
-        boolean haveEnoughGem = state.getBankGems().get(g1) > 0 && state.getBankGems().get(g2) > 0 && state.getBankGems().get(g1) > 0;
-        if (notSameColors && haveEnoughGem && notGold) {
+        boolean haveEnoughGem = state.getBankGems().get(g1) > 0 && state.getBankGems().get(g2) > 0 && state.getBankGems().get(g3) > 0;
+        int sumOfGems = 0;
+        for (Integer value : p.getGems().values()) {
+            sumOfGems += value;
+        }
+        boolean notMoreThan10 = (sumOfGems + 3) <= 10;
+        if (notSameColors && haveEnoughGem && notGold && notMoreThan10) {
             state.getBankGems().put(g1, state.getBankGems().get(g1)-1);
             state.getBankGems().put(g2, state.getBankGems().get(g2)-1);
             state.getBankGems().put(g3, state.getBankGems().get(g3)-1);
@@ -72,7 +77,12 @@ public class GameManager {
     }
     
     public synchronized boolean take2Gems(Player p, gemsColor g) {
-        if (g != gemsColor.Gold && state.getBankGems().get(g) >= 4) {
+        int sumOfGems = 0;
+        for (Integer value : p.getGems().values()) {
+            sumOfGems += value;
+        }
+        boolean notMoreThan10 = (sumOfGems + 2) <= 10;
+        if (g != gemsColor.Gold && state.getBankGems().get(g) >= 4 && notMoreThan10) {
             state.getBankGems().put(g, state.getBankGems().get(g)-2);
             p.addGems(g, 2);
             return true;
