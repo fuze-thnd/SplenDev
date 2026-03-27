@@ -2,9 +2,12 @@ package client;
 
 import shared.*;
 import shared.Gems.gemsColor;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class Player {
+public class Player implements Serializable {
     private String name;
     private int prestigePoints;
     private ArrayList<DevelopmentCards> developmentCards;

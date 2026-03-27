@@ -13,7 +13,7 @@ public class RoomHandler implements Serializable {
     private final String code;
     private ServerGameState gameState;
     private PlayerHandler owner;
-    private GameManager gameManager;
+    private transient GameManager gameManager;
     private ObjectInputStream inFromClient;
     private Thread listeningThread;
 
