@@ -8,7 +8,7 @@ import shared.GameState;
 public class GameClient {
 
     public static final String DEFAULT_HOST = "127.0.0.1";
-    public static final int DEFAULT_PORT = 1234
+    public static final int DEFAULT_PORT = 12345;
 
     private final String host;
     private final int port;
