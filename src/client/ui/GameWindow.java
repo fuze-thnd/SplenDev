@@ -547,27 +547,24 @@ import java.awt.*;
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-            //Glass Paneสำหรับขึ้นมาเมื่อถึงตาเล่นของผู้เล่น
-            JPanel glassAction = (JPanel) frame.getGlassPane();
-            glassAction.setLayout(new BorderLayout());
-            glassAction.setBackground(new Color(0, 0, 0, 100));
-            glassAction.setVisible(false);
+            //Panel สำหรับขึ้นมาเมื่อถึงตาเล่น
             //ปุ่มเลือกAction
-            JPanel insideGlass = new JPanel();
-            insideGlass.setLayout(new GridLayout(1, 4));
+            JPanel takeAction = new JPanel();
+            takeAction.setLayout(new GridLayout(1, 4));
             String[] button = {"Reserve", "Take 3 Tokens", "Take 2 Tokens", "Purchase"};
-            for (int i = 0; i < button.length ; i++){
+            for (int i = 0; i < button.length ; i++) {
                 JButton button1 = new JButton(button[i]);
-                insideGlass.add(button1);
+                takeAction.add(button1);
             }
-            glassAction.add(insideGlass, BorderLayout.CENTER);
+            takeAction.setBackground(new Color(0, 0, 0, 100));
+            takeAction.setVisible(false);
 
 
             //YouWin glass บอกผู้ชนะ
-            JPanel WinGlass = (JPanel) frame.getGlassPane();
-            WinGlass.setLayout(new BorderLayout());
-            WinGlass.setBackground(new Color(0, 0, 0, 100));
-            WinGlass.setVisible(false);
+            JPanel WinnerTeller = new JPanel();
+            WinnerTeller.setLayout(new BorderLayout());
+            WinnerTeller.setBackground(new Color(0, 0, 0, 100));
+            WinnerTeller.setVisible(false);
 
             JLabel winnerLabel = new JLabel("You Win!");
             winnerLabel.setFont(new Font("Arial", Font.BOLD, 40));
@@ -577,11 +574,11 @@ import java.awt.*;
             winnerLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 4)); // ขอบสีเหลือง
             winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
             winnerLabel.setVerticalAlignment(SwingConstants.CENTER);
-            WinGlass.add(winnerLabel);
+            WinnerTeller.add(winnerLabel);
 
 
             //YouLose glass บอกผู้แพ้
-            JPanel LoseGlass = (JPanel) frame.getGlassPane();
+            JPanel LoseGlass = new JPanel();
             LoseGlass.setLayout(new BorderLayout());
             LoseGlass.setBackground(new Color(0, 0, 0, 100));
             LoseGlass.setVisible(false);
