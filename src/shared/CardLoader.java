@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 import shared.Gems.gemsColor;
 
-public class CardLoader {
+public class CardLoader implements Serializable{
     private Stack<DevelopmentCards> level1;
     private Stack<DevelopmentCards> level2;
     private Stack<DevelopmentCards> level3;
@@ -55,6 +55,8 @@ public class CardLoader {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+
+        this.shuffleAll();
     }
     
     public DevelopmentCards getDevelopmentCardsData(int id, String line) {
@@ -67,8 +69,9 @@ public class CardLoader {
         cost.put(gemsColor.Green, Integer.valueOf(data[5]));
         cost.put(gemsColor.Red, Integer.valueOf(data[6]));
         cost.put(gemsColor.White, Integer.valueOf(data[7]));
+        String imageName = data[8];
         gemsColor bonusGemsColor = gemsColor.valueOf(data[1]);
-        return new DevelopmentCards(id, prestigePoints, cost, bonusGemsColor);
+        return new DevelopmentCards(id, prestigePoints, cost, bonusGemsColor, imageName);
     }
     
     public NobleCards getNobleCardsData(int id, String line) {
@@ -81,7 +84,18 @@ public class CardLoader {
         cost.put(gemsColor.Green, Integer.valueOf(data[3]));
         cost.put(gemsColor.Red, Integer.valueOf(data[4]));
         cost.put(gemsColor.White, Integer.valueOf(data[5]));
-        return new NobleCards(id, prestigePoints, cost);
+        String imageName = data[6].trim();
+        return new NobleCards(id, prestigePoints, cost, imageName);
+    }
+
+    // Shuffle card
+    // by Taweerat
+    public void shuffleAll() {
+        Collections.shuffle(level1);
+        Collections.shuffle(level2);
+        Collections.shuffle(level3);
+
+        Collections.shuffle(noble);
     }
     
     public Stack<DevelopmentCards> getDevelopmentCardsLevel1() {return level1;}
