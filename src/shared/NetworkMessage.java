@@ -11,7 +11,7 @@ public class NetworkMessage implements Serializable {
     }
 
     private MessageType type;
-    private GameState gameState;
+    private GameState gameState
     private String textContent;
     private String playerName;
 
