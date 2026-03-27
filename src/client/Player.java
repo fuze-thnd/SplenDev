@@ -8,6 +8,7 @@ public class Player {
     private String name;
     private int prestigePoints;
     private ArrayList<DevelopmentCards> developmentCards;
+    private ArrayList<DevelopmentCards> reservedCards;
     private ArrayList<NobleCards> nobleCards;
     private HashMap<gemsColor, Integer> gems;
     private HashMap<gemsColor, Integer> bonusGems;
@@ -30,6 +31,7 @@ public class Player {
         bonusGems.put(gemsColor.Red, 0);
         bonusGems.put(gemsColor.White, 0);
         nobleCards = new ArrayList<>();
+        reservedCards = new ArrayList<>();
     }
     public void setName(String name) {this.name = name;}
     public String getName() {return this.name;}
@@ -58,4 +60,7 @@ public class Player {
     public void addNobleCards(NobleCards nobleCard) {this.nobleCards.add(nobleCard);}
     public HashMap<gemsColor, Integer> getBonusGems() {return bonusGems;}
     public void addBonusGems(gemsColor g) {this.bonusGems.put(g, bonusGems.get(g)+1);}
+    public ArrayList<DevelopmentCards> getReservedCard() {return reservedCards;}
+    public void addReservedCard(DevelopmentCards card) {this.reservedCards.add(card);}
+    public int getDevelopmentCardSize() {return this.developmentCards.size();}
 }

@@ -54,10 +54,16 @@ public class GameManager {
         state.setPlayers(p);
     }
     
-    public boolean take3Gems(Player p, gemsColor g1, gemsColor g2, gemsColor g3) {
+    public synchronized boolean take3Gems(Player p, gemsColor g1, gemsColor g2, gemsColor g3) {
+        boolean notGold = (g1 != gemsColor.Gold) && (g2 != gemsColor.Gold) && (g3 != gemsColor.Gold);
         boolean notSameColors = g1 != g2 && g1 != g3 && g2 != g3;
-        boolean haveEnoughGem = state.getBankGems().get(g1) > 0 && state.getBankGems().get(g2) > 0 && state.getBankGems().get(g1) > 0;
-        if (notSameColors & haveEnoughGem) {
+        boolean haveEnoughGem = state.getBankGems().get(g1) > 0 && state.getBankGems().get(g2) > 0 && state.getBankGems().get(g3) > 0;
+        int sumOfGems = 0;
+        for (Integer value : p.getGems().values()) {
+            sumOfGems += value;
+        }
+        boolean notMoreThan10 = (sumOfGems + 3) <= 10;
+        if (notSameColors && haveEnoughGem && notGold && notMoreThan10) {
             state.getBankGems().put(g1, state.getBankGems().get(g1)-1);
             state.getBankGems().put(g2, state.getBankGems().get(g2)-1);
             state.getBankGems().put(g3, state.getBankGems().get(g3)-1);
@@ -70,8 +76,13 @@ public class GameManager {
         }
     }
     
-    public boolean take2Gems(Player p, gemsColor g) {
-        if (state.getBankGems().get(g) >= 4) {
+    public synchronized boolean take2Gems(Player p, gemsColor g) {
+        int sumOfGems = 0;
+        for (Integer value : p.getGems().values()) {
+            sumOfGems += value;
+        }
+        boolean notMoreThan10 = (sumOfGems + 2) <= 10;
+        if (g != gemsColor.Gold && state.getBankGems().get(g) >= 4 && notMoreThan10) {
             state.getBankGems().put(g, state.getBankGems().get(g)-2);
             p.addGems(g, 2);
             return true;
@@ -92,28 +103,144 @@ public class GameManager {
             if (color == gemsColor.Gold) continue;
             
             int cost = cardCost.get(color);
-            int gems = p.getGems().get(color);
-            int bonus = p.getBonusGems().get(color);
+            int playerGems = p.getGems().get(color);
+            int playerBonus = p.getBonusGems().get(color);
             
-            int costAfterBonus = Math.max(0, cost - bonus);
+            int costAfterBonus = Math.max(0, cost - playerBonus);
             if (costAfterBonus > 0) {
-                if (gems < costAfterBonus) {
-                    goldNeeded += costAfterBonus - gems;
+                if (playerGems < costAfterBonus) {
+                    goldNeeded += costAfterBonus - playerGems;
                 }
             }
         }
         return goldNeeded <= goldAvailable;
     }
     
-    public boolean reserveCard(Player p, DevelopmentCards card) {
-        return false;
+    public synchronized boolean buyCard(Player p, DevelopmentCards card) {
+        if (!canPlayerBuyCard(p, card)) {
+            return false;
+        }
+        
+        HashMap<gemsColor, Integer> cardCost = card.getCost();
+        HashMap<gemsColor, Integer> bankGems = state.getBankGems();
+        
+        for (gemsColor color : cardCost.keySet()) {
+            // skip gold (no gold is cost)
+            if (color == gemsColor.Gold) continue;
+            
+            int cost = cardCost.get(color);
+            int playerBonus = p.getBonusGems().get(color);
+            int costAfterBonus = Math.max(0, cost - playerBonus);
+            
+            if (costAfterBonus > 0) {
+                int playerGems = p.getGems().get(color);
+                // have enough gems
+                if (playerGems >= costAfterBonus) {
+                    p.removeGems(color, costAfterBonus);
+                    bankGems.put(color, bankGems.get(color) + costAfterBonus);
+                // doesn't have enough gems (use gold)
+                } else {
+                    int goldNeeded = costAfterBonus - playerGems;
+                    
+                    p.removeGems(color, playerGems);
+                    bankGems.put(color, bankGems.get(color) + playerGems);
+                    
+                    p.removeGems(gemsColor.Gold, goldNeeded);
+                    bankGems.put(gemsColor.Gold, bankGems.get(gemsColor.Gold) + goldNeeded);
+                }
+            }
+        }
+        state.setBankGems(bankGems);
+        p.addDevelopmentCards(card);
+        card.addPlayerPrestigePoints(p);
+        p.addBonusGems(card.getGemsColor());
+        // remove card on board
+        removeDevelopmentCardOnboard(card);
+        return true;
     }
     
-    public boolean checkNoble(Player p) {
-        return false;
+    public int[] findDevelopmentCardIndex(DevelopmentCards card) {
+        for (int i=0; i<3; i++)
+            for (int j=0; j<4; j++) {
+                if (state.getCardsOnBoard()[i][j].equals(card))
+                    return new int[]{i, j};
+            }
+        return null;
     }
     
+    public void removeDevelopmentCardOnboard(DevelopmentCards card) {
+        int[] index = findDevelopmentCardIndex(card);
+        int i = index[0], j = index[1];
+        DevelopmentCards[][] cardsOnBoard = state.getCardsOnBoard();
+        cardsOnBoard[i][j] = null;
+        state.setCardsOnBoard(cardsOnBoard);
+    }
     
+    public synchronized boolean reserveCard(Player p, DevelopmentCards card) {
+        if (p.getReservedCard().size() >= 3) {
+            return false;
+        }
+        if (state.getBankGems().get(gemsColor.Gold) > 0) {
+            p.addGems(gemsColor.Gold, 1);
+            state.getBankGems().put(gemsColor.Gold, state.getBankGems().get(gemsColor.Gold)-1);
+        }
+        p.addReservedCard(card);
+        removeDevelopmentCardOnboard(card);
+        return true;
+    }
+    
+    public synchronized void sacrificeCard(Player p, Sacrificable card) {
+        int bankGemsGold = state.getBankGems().get(gemsColor.Gold);
+        int playerRefund = card.getDropRefund();
+        int actuallyGold;
+        if (bankGemsGold >= playerRefund) {
+            actuallyGold = playerRefund;
+        } else {
+            actuallyGold = bankGemsGold;
+        }
+        p.removeDevelopmentCards((DevelopmentCards)card);
+        state.getBankGems().put(gemsColor.Gold, state.getBankGems().get(gemsColor.Gold)-actuallyGold);
+        p.addGems(gemsColor.Gold, actuallyGold);
+    }
+    
+    public boolean checkWin(Player p){
+        return (p.getPrestigePoints() >= 15);
+    }
+    
+    public synchronized NobleCards buyNoble(Player p) {
+        ArrayList<NobleCards> nobleCardsOnBoard = state.getNobleCardsOnBoard();
+        HashMap<gemsColor,Integer> pBonusGems = p.getBonusGems();
+        NobleCards noble = null;
+        
+        for (NobleCards i :nobleCardsOnBoard) {
+            HashMap<gemsColor,Integer> currentNobleCardCost = i.getCost();
+            boolean buyable = true;
+            for (gemsColor j : currentNobleCardCost.keySet()) {
+                if (pBonusGems.get(j) < currentNobleCardCost.get(j)) {
+                    buyable = false;
+                    break;
+                }
+            }
+            if (buyable) {
+                noble = i;
+                p.addNobleCards(i);
+                i.addPlayerPrestigePoints(p);
+                nobleCardsOnBoard.remove(i);
+                state.setNobleCardsOnBoard(nobleCardsOnBoard);
+                break;
+            }
+        }
+        return noble;
+    }
+    
+    public synchronized boolean checkGems(Player p) {
+        HashMap<Gems.gemsColor,Integer> pGems = p.getGems();
+        Integer sumGems = 0;
+        for (gemsColor i : pGems.keySet()) {
+            sumGems += pGems.get(i);
+        }
+        return (sumGems > 10);
+    }
     
     public void refillDevelopmentCards() {
         for (int i = 0; i < 3; i++) {
@@ -122,13 +249,24 @@ public class GameManager {
                 if (state.getCardsOnBoard()[i][j] != null)
                     continue;
                 // add the slot that has no card
-                if (i == 0)
+                if (i == 0 && !state.getDevelopmentCardsLevel1().isEmpty())
                     state.getCardsOnBoard()[i][j] = state.getDevelopmentCardsLevel1().pop();
-                else if (i == 1)
+                else if (i == 1 && !state.getDevelopmentCardsLevel1().isEmpty())
                     state.getCardsOnBoard()[i][j] = state.getDevelopmentCardsLevel2().pop();
-                else if (i == 2)
+                else if (i == 2 && !state.getDevelopmentCardsLevel1().isEmpty())
                     state.getCardsOnBoard()[i][j] = state.getDevelopmentCardsLevel3().pop();
             }
         }
+    }
+    
+    public synchronized Player getWinner() {
+        ArrayList<Player> winner = new ArrayList<>();
+        for (Player p : state.getPlayers()) {
+            if (p.getPrestigePoints() >= 15) {
+                winner.add(p);
+            }
+        }
+        Collections.sort(winner, Comparator.comparing(Player::getDevelopmentCardSize)); // sort by development card size
+        return winner.getFirst();
     }
 }
