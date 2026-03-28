@@ -41,7 +41,8 @@ public class GameClient {
     // เมธอดเชื่อมต่อ
     public void connect(String playerName) {
         try {
-            socket = new Socket("localhost", 8080);
+//            socket = new Socket("localhost", 8080);
+            socket = new Socket("txwrtx1.trueddns.com", 63653);
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());

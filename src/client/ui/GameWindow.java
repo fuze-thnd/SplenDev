@@ -913,7 +913,14 @@ import javax.swing.border.LineBorder;
                 Gems.gemsColor.White,
                 Gems.gemsColor.Gold};
             for (int i=0; i<6; i++) {
-                JButton gemCard = new JButton(String.valueOf(bankGems.get(color[i])));
+                JButton gemCard = new JButton();
+                gemCard.setLayout(new FlowLayout(FlowLayout.CENTER));
+                OutlineJLabel amountLabel = new OutlineJLabel(String.valueOf(bankGems.get(color[i])), SwingConstants.CENTER);
+                amountLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+                amountLabel.setOpaque(false);
+                amountLabel.setOutlineColor(Color.BLACK);
+                amountLabel.setForeground(Color.WHITE);
+                gemCard.add(amountLabel);
                 gemCard.setPreferredSize(new Dimension(60,60));
                 
                 gemCard.setHorizontalTextPosition(SwingConstants.CENTER);
