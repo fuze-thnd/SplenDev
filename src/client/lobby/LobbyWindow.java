@@ -1,5 +1,9 @@
 package client.lobby;
 
+import client.GameClient;
+import server.PlayerHandler;
+import server.RoomHandler;
+
 public class LobbyWindow extends javax.swing.JFrame {
 
     /**
@@ -13,30 +17,41 @@ public class LobbyWindow extends javax.swing.JFrame {
         this.isHost = isHost;
         initComponents();
         setupRole();
+        GameClient.getInstance().setLobbyWindow(this);
     }
     
     private void setupRole() {
         if (isHost) {
             btn_start.setText("Start");
             // The Start button is disabled until clients are ready
-            btn_start.setEnabled(false); 
+            btn_start.setEnabled(true); 
         } else {
-            btn_start.setText("Ready");
+            btn_start.setText("Waiting");
+            btn_start.setEnabled(false);
             btn_start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/lobby/Picture/Btn_image_unready.png")));
         }
     }
     
-    // Call this method when the network receives "Ready" from all clients
-    public void setAllPlayersReady(boolean allReady) {
-        if (isHost) {
-            btn_start.setEnabled(allReady);
-            if (allReady) {
-                btn_start.setEnabled(true);
-            } else {
-                btn_start.setEnabled(false);
+    public void updateRoomData(RoomHandler room) {
+        java.awt.EventQueue.invokeLater(() -> {
+            jLabel2.setText(room.getCode());
+            jLabel3.setText("Empty");
+            jLabel4.setText("Empty");
+            jLabel5.setText("Empty");
+            jLabel6.setText("Empty");
+
+            java.util.ArrayList<PlayerHandler> players = room.getPlayersHandler();
+            for (int i = 0; i < players.size(); i++) {
+                String pName = players.get(i).getPlayer().getName();
+                
+                if (i == 0) jLabel3.setText(pName);
+                else if (i == 1) jLabel4.setText(pName);
+                else if (i == 2) jLabel5.setText(pName);
+                else if (i == 3) jLabel6.setText(pName);
             }
-        }
+        });
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -201,22 +216,8 @@ public class LobbyWindow extends javax.swing.JFrame {
 
     private void btn_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_startActionPerformed
         if (isHost) {
-            // HOST MECHANIC: Start the game
-            //System.out.println("All players ready! Starting game...");
-            // TODO: new GameWindow().setVisible(true);
-            // this.dispose();
-            
-        } else {
-            // CLIENT MECHANIC: Toggle Ready/Cancel status
-            isReady = !isReady; // Swap between true/false
-            
-            if (isReady) {
-                btn_start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/lobby/Picture/Btn_image_ready.png")));
-                // TODO: Send network message to Server: "I AM READY"
-            } else {
-                btn_start.setIcon(new javax.swing.ImageIcon(getClass().getResource("/client/lobby/Picture/Btn_image_unready.png")));
-                // TODO: Send network message to Server: "I AM NOT READY"
-            }
+            System.out.println("Host start the game!");
+            GameClient.getInstance().sendToServer("START_GAME");
         }
     }//GEN-LAST:event_btn_startActionPerformed
 

@@ -3,10 +3,17 @@ package client;
 import shared.NetworkMessage;
 import java.io.*;
 import java.net.Socket;
+import server.RoomHandler;
+import client.lobby.LobbyWindow;
 
 public class GameClient {
     // 🌟 1. สร้างตัวแปร static เพื่อเก็บ Client ตัวเดียวของระบบ
     private static GameClient instance;
+    private LobbyWindow currentLobbyWindow;
+    
+    public void setLobbyWindow(LobbyWindow window) {
+        this.currentLobbyWindow = window;
+    }
 
     private Socket socket;
     private ObjectOutputStream out;
@@ -66,6 +73,13 @@ public class GameClient {
                         
                         if (msg.getCommand().equals("UPDATE_GAME_STATE")) {
                             System.out.println("-> ได้รับข้อมูลกระดานเกมใหม่แล้ว");
+                        }
+                    } else if (obj instanceof RoomHandler) {
+                        RoomHandler room = (RoomHandler) obj;
+                        System.out.println("[Server -> Client] อัปเดตข้อมูลห้อง: " + room.getRoomName());
+                        
+                        if (currentLobbyWindow != null) {
+                            currentLobbyWindow.updateRoomData(room);
                         }
                     }
                     // --- กรณีที่ 3: รับ Object อื่นๆ (เช่น ตอน Server ส่งข้อมูลห้องมา) ---
