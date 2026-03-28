@@ -2,6 +2,8 @@ package client.lobby;
 
 import client.GameClient;
 
+import javax.swing.*;
+
 public class SelectWindow extends javax.swing.JFrame {
 
     /**
@@ -73,7 +75,16 @@ public class SelectWindow extends javax.swing.JFrame {
         btn_join.setPreferredSize(new java.awt.Dimension(100, 44));
         btn_join.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_joinActionPerformed(evt);
+//                btn_joinActionPerformed(evt);
+
+                String code = JOptionPane.showInputDialog("Please enter room code");
+                if(code != null){
+                    LobbyWindow lb = new LobbyWindow(false);
+                    lb.setVisible(true);
+                    GameClient.getInstance().setLobbyWindow(lb);
+                    GameClient.getInstance().sendToServer("JOIN:"+code);
+                    dispose();
+                }
             }
         });
 

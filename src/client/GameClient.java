@@ -1,5 +1,6 @@
 package client;
 
+import client.ui.GameWindow;
 import shared.NetworkMessage;
 import java.io.*;
 import java.net.Socket;
@@ -10,6 +11,7 @@ public class GameClient {
     // 🌟 1. สร้างตัวแปร static เพื่อเก็บ Client ตัวเดียวของระบบ
     private static GameClient instance;
     private LobbyWindow currentLobbyWindow;
+    private GameWindow currentGameWindow;
     
     public void setLobbyWindow(LobbyWindow window) {
         this.currentLobbyWindow = window;
@@ -70,10 +72,19 @@ public class GameClient {
         }).start();
     }
     
-    public void handleServerMessage(String str) {
+    public void handleServerMessage(String str) throws IOException, ClassNotFoundException {
         System.out.println("[Server -> Client] " + str);
+
+
         if (str.equals("START_GAME")) {
-            
+            currentLobbyWindow.dispose();
+            GameWindow gw = new  GameWindow();
+            currentGameWindow = gw;
+
+        }else if(str.equals("REFRESH_LOBBY")){
+            RoomHandler r = (RoomHandler) in.readObject();
+            System.out.println(r);
+            handleServerMessage(r);
         }
     }
     
@@ -86,7 +97,9 @@ public class GameClient {
     
     public void handleServerMessage(RoomHandler room) {
         if (currentLobbyWindow != null) {
-                            currentLobbyWindow.updateRoomData(room);
+            currentLobbyWindow.updateRoomData(room);
+        }else{
+            System.out.println("Current lobby is null");
         }
     }
 

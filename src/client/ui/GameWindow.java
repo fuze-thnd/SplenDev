@@ -27,12 +27,13 @@ import javax.swing.border.LineBorder;
             rightPanel = new JPanel();
 
             frame.add(mainPanel);
-            frame.setSize(1200,1000);
+            frame.setSize(1400,900);
             frame.setLocationRelativeTo(null);
+            frame.setResizable(false);
 
             //หน้าจอหลักปรับlayoutUI
             mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-            mainPanel.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
+            mainPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
             //กำหนดขนาดฝั่งที่มีการ์ด
             leftPanel.setLayout(new BorderLayout());

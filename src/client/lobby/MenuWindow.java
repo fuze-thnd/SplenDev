@@ -1,5 +1,9 @@
 package client.lobby;
 
+import client.GameClient;
+
+import javax.swing.*;
+
 public class MenuWindow extends javax.swing.JFrame {
 
     /**
@@ -57,7 +61,15 @@ public class MenuWindow extends javax.swing.JFrame {
         });
         btn_play.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_playActionPerformed(evt);
+//                btn_playActionPerformed(evt);
+
+                String name = JOptionPane.showInputDialog("Please enter your name");
+                if(name != null){
+                    GameClient.getInstance().connect(name);
+                    dispose();
+                    new SelectWindow().setVisible(true);
+
+                }
             }
         });
 

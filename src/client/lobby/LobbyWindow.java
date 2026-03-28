@@ -49,6 +49,8 @@ public class LobbyWindow extends javax.swing.JFrame {
                 else if (i == 2) jLabel5.setText(pName);
                 else if (i == 3) jLabel6.setText(pName);
             }
+
+            System.out.println("Updated Room data.");
         });
     }
     
