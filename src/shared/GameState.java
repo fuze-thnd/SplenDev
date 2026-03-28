@@ -11,7 +11,7 @@ public class GameState implements Serializable {
     private int numberOfPlayers;
     
     private DevelopmentCards[][] cardsOnBoard;
-    private Map<gemsColor, Integer> bankGems;
+    private HashMap<gemsColor, Integer> bankGems;
     
     private Stack<DevelopmentCards> developmentCardsLevel1;
     private Stack<DevelopmentCards> developmentCardsLevel2;
@@ -45,7 +45,7 @@ public class GameState implements Serializable {
         return cardsOnBoard;
     }
 
-    public Map<gemsColor, Integer> getBankGems() {
+    public HashMap<gemsColor, Integer> getBankGems() {
         return bankGems;
     }
 
@@ -81,7 +81,7 @@ public class GameState implements Serializable {
         this.cardsOnBoard = cardsOnBoard;
     }
 
-    public void setBankGems(Map<gemsColor, Integer> bankGems) {
+    public void setBankGems(HashMap<gemsColor, Integer> bankGems) {
         this.bankGems = bankGems;
     }
 
