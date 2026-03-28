@@ -6,15 +6,22 @@ import java.io.*;
 import java.net.Socket;
 import server.RoomHandler;
 import client.lobby.LobbyWindow;
+import shared.GameState;
 
 public class GameClient {
     // 🌟 1. สร้างตัวแปร static เพื่อเก็บ Client ตัวเดียวของระบบ
     private static GameClient instance;
     private LobbyWindow currentLobbyWindow;
     private GameWindow currentGameWindow;
+    private GameController gameController;
+    private GameState gameState;
     
     public void setLobbyWindow(LobbyWindow window) {
         this.currentLobbyWindow = window;
+    }
+    
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
     }
 
     private Socket socket;
@@ -75,12 +82,11 @@ public class GameClient {
     public void handleServerMessage(String str) throws IOException, ClassNotFoundException {
         System.out.println("[Server -> Client] " + str);
 
-
         if (str.equals("START_GAME")) {
             currentLobbyWindow.dispose();
             GameWindow gw = new  GameWindow();
             currentGameWindow = gw;
-
+            gameController = new GameController(gw, this);
         }else if(str.equals("REFRESH_LOBBY")){
             RoomHandler r = (RoomHandler) in.readObject();
             System.out.println(r);
@@ -90,8 +96,14 @@ public class GameClient {
     
     public void handleServerMessage(NetworkMessage msg) {
         String command = msg.getCommand();
+        System.out.println("[Server -> Client] command " + command);
         if (command.equals("UPDATE_GAME_STATE")) {
-            
+            gameState = (GameState) msg.getData();
+            currentGameWindow.refreshUiLeftPanel(gameState.getNobleCardsOnBoard(),gameState.getCardsOnBoard());
+            currentGameWindow.refreshUiCenterPanel(gameState.getBankGems());
+            currentGameWindow.refreshUiRightPanel(gameState.getPlayers());
+        } else if (command.equals("YOUR_TURN")) {
+            gameController.onYourTurn();
         }
     }
     
@@ -126,5 +138,9 @@ public class GameClient {
                 System.err.println("Send Error: " + e.getMessage());
             }
         }
+    }
+    
+    public GameState getGameState() {
+        return gameState;
     }
 }

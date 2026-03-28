@@ -84,7 +84,7 @@ public class LobbyWindow extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Brush Script MT", 0, 50)); // NOI18N
         jLabel1.setText("Lobby Code :");
 
-        jLabel2.setFont(new java.awt.Font("Brush Script MT", 0, 50)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Google Sans Code", 0, 50)); // NOI18N
         jLabel2.setText("-----");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

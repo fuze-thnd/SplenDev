@@ -71,7 +71,7 @@
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Brush Script MT" size="50" style="0"/>
+              <Font name="Google Sans Code" size="50" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="-----"/>
           </Properties>

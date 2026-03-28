@@ -67,21 +67,21 @@ public class GameManager {
         try {
             ArrayList<String> data = (ArrayList) msg.getData();
             if (command.equals("TAKE_3_GEMS")) {
-                gemsColor color1 = gemsColor.valueOf(data.get(1));
-                gemsColor color2 = gemsColor.valueOf(data.get(2));
-                gemsColor color3 = gemsColor.valueOf(data.get(3));
+                gemsColor color1 = gemsColor.valueOf(data.get(0));
+                gemsColor color2 = gemsColor.valueOf(data.get(1));
+                gemsColor color3 = gemsColor.valueOf(data.get(2));
                 success = take3Gems(currentPlayer, color1, color2, color3);
             } else if (command.equals("TAKE_2_GEMS")) {
-                gemsColor color1 = gemsColor.valueOf(data.get(1));
+                gemsColor color1 = gemsColor.valueOf(data.get(0));
                 success = take2Gems(currentPlayer, color1);
             } else if (command.equals("BUY_CARD")) {
-                int id = Integer.parseInt(data.get(1));
+                int id = Integer.parseInt(data.get(0));
                 DevelopmentCards card = findCardById(currentPlayer, id);
                 if (card != null) {
                     success = buyCard(currentPlayer, card);
                 }
             } else if (command.equals("RESERVE_CARD")) {
-                int id = Integer.parseInt(data.get(1));
+                int id = Integer.parseInt(data.get(0));
                 DevelopmentCards card = findCardById(currentPlayer, id);
                 success = reserveCard(currentPlayer, card);
             }
