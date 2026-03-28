@@ -15,6 +15,7 @@ public class GameClient {
     private GameWindow currentGameWindow;
     private GameController gameController;
     private GameState gameState;
+    private String name;
     
     public void setLobbyWindow(LobbyWindow window) {
         this.currentLobbyWindow = window;
@@ -102,8 +103,11 @@ public class GameClient {
             currentGameWindow.refreshUiLeftPanel(gameState.getNobleCardsOnBoard(),gameState.getCardsOnBoard());
             currentGameWindow.refreshUiCenterPanel(gameState.getBankGems());
             currentGameWindow.refreshUiRightPanel(gameState.getPlayers());
+            gameController.initController(this.gameState);
         } else if (command.equals("YOUR_TURN")) {
             gameController.onYourTurn();
+        } else if (command.equals("GAME_OVER")) {
+            gameController.Winner((String) msg.getData());
         }
     }
     

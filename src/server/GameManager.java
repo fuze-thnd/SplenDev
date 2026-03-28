@@ -7,6 +7,8 @@ import client.*;
 import shared.*;
 import shared.Gems.gemsColor;
 
+import javax.crypto.spec.PSource;
+
 public class GameManager {
     public GameState state;
     
@@ -65,27 +67,35 @@ public class GameManager {
         String command = msg.getCommand();
 
         try {
-            ArrayList<String> data = (ArrayList) msg.getData();
+
             if (command.equals("TAKE_3_GEMS")) {
-                gemsColor color1 = gemsColor.valueOf(data.get(0));
-                gemsColor color2 = gemsColor.valueOf(data.get(1));
-                gemsColor color3 = gemsColor.valueOf(data.get(2));
+                System.out.println("test");
+                ArrayList<gemsColor> data = (ArrayList) msg.getData();
+                System.out.println(data.get(1));
+                gemsColor color1 = (data.get(0));
+                gemsColor color2 = (data.get(1));
+                gemsColor color3 = (data.get(2));
                 success = take3Gems(currentPlayer, color1, color2, color3);
             } else if (command.equals("TAKE_2_GEMS")) {
-                gemsColor color1 = gemsColor.valueOf(data.get(0));
+                gemsColor data = (gemsColor) msg.getData();
+                System.out.println();
+                gemsColor color1 = (data);
                 success = take2Gems(currentPlayer, color1);
             } else if (command.equals("BUY_CARD")) {
-                int id = Integer.parseInt(data.get(0));
+                System.out.println("test");
+                int id = (int) msg.getData();
+                System.out.println(id);
                 DevelopmentCards card = findCardById(currentPlayer, id);
                 if (card != null) {
                     success = buyCard(currentPlayer, card);
                 }
             } else if (command.equals("RESERVE_CARD")) {
-                int id = Integer.parseInt(data.get(0));
+                int id = (int) msg.getData();
                 DevelopmentCards card = findCardById(currentPlayer, id);
                 success = reserveCard(currentPlayer, card);
             }
         } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
 
@@ -107,7 +117,13 @@ public class GameManager {
             sumOfGems += value;
         }
         boolean notMoreThan10 = (sumOfGems + 3) <= 10;
+        System.out.println("check1");
+        System.out.println(notSameColors);
+        System.out.println(haveEnoughGem);
+        System.out.println(notGold);
+        System.out.println(notMoreThan10);
         if (notSameColors && haveEnoughGem && notGold && notMoreThan10) {
+            System.out.println("check2");
             state.getBankGems().put(g1, state.getBankGems().get(g1)-1);
             state.getBankGems().put(g2, state.getBankGems().get(g2)-1);
             state.getBankGems().put(g3, state.getBankGems().get(g3)-1);
@@ -118,6 +134,7 @@ public class GameManager {
         } else {
             return false;
         }
+
     }
     
     public synchronized boolean take2Gems(Player p, gemsColor g) {
@@ -338,5 +355,21 @@ public class GameManager {
         }
         Collections.sort(winner, Comparator.comparing(Player::getDevelopmentCardSize)); // sort by development card size
         return winner.getFirst();
+    }
+    public Gems.gemsColor getGemColor(String color) {
+        if (color.equals("White")) {
+            return Gems.gemsColor.White;
+        } else if (color.equals("Black")) {
+            return Gems.gemsColor.Black;
+        } else if (color.equals("Blue")) {
+            return Gems.gemsColor.Blue;
+        } else if (color.equals("Green")) {
+            return Gems.gemsColor.Green;
+        } else if (color.equals("Red")) {
+            return Gems.gemsColor.Red;
+        } else if (color.equals("Gold")) {
+            return Gems.gemsColor.Gold;
+        }
+        return null;
     }
 }

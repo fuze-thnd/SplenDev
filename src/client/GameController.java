@@ -1,5 +1,6 @@
 package client;
 
+import com.sun.security.jgss.GSSUtil;
 import shared.*;
 import shared.Gems.gemsColor;
 import javax.swing.*;
@@ -22,27 +23,27 @@ public class GameController {
     private int  currentActionMode = -1; // 0=Reserve, 1=take3, 2=take2, 3=BuyCard
     private List<JButton> highlightedButtons = new ArrayList<>();
     private List<gemsColor> selectedGems = new ArrayList<>();
-    private Cards selectedCard = null;
-    private JButton lastSelectedCardBtn = null;
+    private int selectedCard = 0;
+    private GameState gs;
 
     public GameController(GameWindow view, GameClient network) {
         this.view = view;
         this.network = network;
-        initController();
+        //initController(gs);
     }
 
-    private void initController() {
+    public void initController(GameState gs) {
         List<JButton> actionBtns = view.getActionButtons();
         for (int i = 0; i < actionBtns.size(); i++) {
             final int index = i;
             actionBtns.get(i).addActionListener(e -> handleAction(index));
         }
-        
-        List<JButton> nobleBtns = view.getNobleCardLst();
-        for (int i = 0; i < nobleBtns.size(); i++) {
-            final int index = i;
-            nobleBtns.get(i).addActionListener(e -> handleNobleSelection(index));
-        }
+
+//        List<JButton> nobleBtns = view.getNobleCardLst();
+//        for (int i = 0; i < nobleBtns.size(); i++) {
+//            final int index = i;
+//            nobleBtns.get(i).addActionListener(e -> handleNobleSelection(index));
+//        }
 
         List<JButton> lv1Btns = view.getLevel1CardLst();
         for (int i = 0; i < lv1Btns.size(); i++) {
@@ -70,15 +71,21 @@ public class GameController {
         
         view.getResetBtn().addActionListener(e -> handleResetAction());
         view.getConfirmBtn().addActionListener(e -> handleConfirmAction());
+
+        this.gs = gs;
     }
     
     public void onYourTurn() {
         view.showOverlay("ACTION");
     }
+
+    public void Winner(String name) {
+        view.getWinnerLabel().setText(name + " is The Winner");
+        view.showOverlay("WIN");
+    }
     
     public void updateRoomData(RoomHandler room) {
         this.currentRoom = room;
-        //refreshGameUI();
     }
     
     private void resetSelection() {
@@ -88,8 +95,7 @@ public class GameController {
         highlightedButtons.clear();
         
         selectedGems.clear();
-        selectedCard = null;
-        lastSelectedCardBtn = null;
+        selectedCard = 0;
         
         view.getConfirmBtn().setEnabled(false);
 
@@ -98,7 +104,7 @@ public class GameController {
     
     private void handleAction(int index) {
         selectedGems.clear();
-        selectedCard = null;
+        selectedCard = 0;
         
         this.currentActionMode = index;
         
@@ -145,23 +151,24 @@ public class GameController {
                 msg = new NetworkMessage("TAKE_2_GEMS", selectedGems.get(0));
                 break;
             case 3: // Buy Card
-                if (selectedCard != null) {
-                    msg = new NetworkMessage("BUY_CARD", selectedCard.getId());
+                if (selectedCard != 0) {
+                    msg = new NetworkMessage("BUY_CARD", selectedCard);
                 }
                 break;
             case 0: // Reserve Card
-                if (selectedCard != null) {
-                    msg = new NetworkMessage("RESERVE_CARD", selectedCard.getId());
+                if (selectedCard != 0) {
+                    msg = new NetworkMessage("RESERVE_CARD", selectedCard);
                 }
                 break;
         }
         
         if (msg != null) {
-            network.sendToServer(msg);
+            view.showOverlay("NONE");
             System.out.println(msg.getData());
             resetSelection();
             currentActionMode = -1;
-            view.showOverlay("NONE");
+            network.sendToServer(msg);
+
         }
         
         
@@ -172,40 +179,42 @@ public class GameController {
         switch (currentActionMode) {
             case 1 -> isValid = (selectedGems.size() == 3);
             case 2 -> isValid = (selectedGems.size() == 1);
-            case 3, 0 -> isValid = (lastSelectedCardBtn != null);
+            case 3, 0 -> isValid = (selectedCard != 0);
             default -> {
             }
         }
         view.getConfirmBtn().setEnabled(isValid);
     }
-    
-    private void handleNobleSelection(int index) {
-        if (currentRoom == null) return;
-        if (currentActionMode == 0) {
-            NobleCards clickedCard = currentRoom.getShowNobleCard().get(index);
-            if (clickedCard != null) {
-                this.selectedCard = clickedCard;
-                System.out.println("Selected Card ID: " + clickedCard.getId());
-            }
-        }
-    }
+
+//    private void handleNobleSelection(int index) {
+//        if (currentRoom == null) return;
+//        if (currentActionMode == 0) {
+//            NobleCards clickedCard = currentRoom.getShowNobleCard().get(index);
+//            if (clickedCard != null) {
+//                this.selectedCard = clickedCard;
+//                System.out.println("Selected Card ID: " + clickedCard.getId());
+//            }
+//        }
+//    }
 
     private void handleCardSelection(int level, int index) {
-        if (currentRoom == null) return;
-        if (currentActionMode == 3) {
-            DevelopmentCards clickedCard = null;
-//            if (level == 1) clickedCard = currentRoom.getShowCardsLv1().get(index);
-//            else if (level == 2) clickedCard = currentRoom.getShowCardsLv2().get(index);
-//            else if (level == 3) clickedCard = currentRoom.getShowCardsLv3().get(index);
-            
-            if (clickedCard == null) return;
+        if (currentActionMode == 3 || currentActionMode == 0) {
+
+            int clickedCard = 0;
             
             JButton clickedBtn = null;
-            if (level == 1) clickedBtn = view.getLevel1CardLst().get(index);
-            else if (level == 2) clickedBtn = view.getLevel2CardLst().get(index);
-            else if (level == 3) clickedBtn = view.getLevel3CardLst().get(index);
+            if (level == 1) {
+                clickedCard = gs.getCardsOnBoard()[0][index].getId();
+                clickedBtn = view.getLevel1CardLst().get(index);
+            } else if (level == 2) {
+                clickedCard = gs.getCardsOnBoard()[1][index].getId();
+                clickedBtn = view.getLevel2CardLst().get(index);
+            } else if (level == 3) {
+                clickedCard = gs.getCardsOnBoard()[2][index].getId();
+                clickedBtn = view.getLevel3CardLst().get(index);
+            }
             
-            if (selectedCard != null && selectedCard.getId() == clickedCard.getId()) {
+            if (selectedCard != 0 && selectedCard == clickedCard) {
                 resetSelection();
             } else {
                 resetSelection();
@@ -213,15 +222,16 @@ public class GameController {
                 view.setHighlight(clickedBtn, true);
                 highlightedButtons.add(clickedBtn);
                 
-                System.out.println("Selected Card ID: " + clickedCard.getId() + " at Level " + level);
+                System.out.println("Selected Card ID: " + clickedCard + " at Level " + level);
             }
         }
         checkSelectionValidity();
     }
 
     private void handleGemSelection(int index) {
+        if (index == 5) return;
         gemsColor color = gemsColor.values()[index];
-        JButton clickedBtn = view.getGemCardLst().get(index);        
+        JButton clickedBtn = view.getGemCardLst().get(index);
         if (currentActionMode == 1) {
             if (selectedGems.contains(color)) {
                 selectedGems.remove(color);

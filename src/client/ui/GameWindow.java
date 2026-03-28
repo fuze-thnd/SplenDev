@@ -25,7 +25,6 @@ import javax.swing.border.LineBorder;
         private JPanel actionPanel;
         private JPanel confirmationPanel;
         private JLabel winnerLabel;
-        private JLabel loseLabel;
         private JButton confirmBtn;
         private JButton resetBtn;
         private List<JButton> nobleCardLst = new ArrayList<>();
@@ -562,17 +561,6 @@ import javax.swing.border.LineBorder;
             winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
             winnerLabel.setVerticalAlignment(SwingConstants.CENTER);
 
-
-            //YouLose glass บอกผู้แพ้
-            loseLabel = new JLabel("You Lose!");
-            loseLabel.setFont(new Font("Arial", Font.BOLD, 40));
-            loseLabel.setForeground(new Color(255, 215, 0)); // สีทอง
-            loseLabel.setOpaque(true);
-            loseLabel.setBackground(new Color(0,0,0,180)); // กึ่งโปร่ง
-            loseLabel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 4)); // ขอบสีเหลือง
-            loseLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            loseLabel.setVerticalAlignment(SwingConstants.CENTER);
-
             frame.pack();
         }
         
@@ -582,7 +570,7 @@ import javax.swing.border.LineBorder;
             if (type.equals("ACTION")) {
                 glassPane.add(actionPanel, BorderLayout.CENTER);
             } else if (type.equals("CONFIRM")) {
-                JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 20));
+                JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 5));
                 southPanel.setOpaque(false);
                 southPanel.add(resetBtn);
                 southPanel.add(confirmBtn);
@@ -590,8 +578,6 @@ import javax.swing.border.LineBorder;
                 glassPane.add(southPanel, BorderLayout.SOUTH);
             } else if (type.equals("WIN")) {
                 glassPane.add(winnerLabel, BorderLayout.CENTER);
-            } else if (type.equals("LOSE")) {
-                glassPane.add(loseLabel, BorderLayout.CENTER);
             }
             
             if (type.equals("NONE")) {
@@ -806,10 +792,10 @@ import javax.swing.border.LineBorder;
             }
             dvCard.add(costPanel, BorderLayout.SOUTH);
 
-            dvCard.setPreferredSize(new Dimension(120,150));
+            dvCard.setPreferredSize(new Dimension(130,180));
             try {
                 ImageIcon level1Pic = new ImageIcon("DevelopmentCardImage/"  + dc.getImageName() + ".jpeg");
-                Image sizeImg = level1Pic.getImage().getScaledInstance(120,150,Image.SCALE_SMOOTH);
+                Image sizeImg = level1Pic.getImage().getScaledInstance(130,180,Image.SCALE_SMOOTH);
                 dvCard.setIcon(new ImageIcon(sizeImg));
             } catch (Exception e) {
                 dvCard.setText("No Pic");
@@ -854,7 +840,9 @@ import javax.swing.border.LineBorder;
                 return Gems.gemsColor.Gold;
             return null;
         }
-
+        public JLabel getWinnerLabel() {
+            return winnerLabel;
+        }
         public List<JButton> getNobleCardLst(){
             return nobleCardLst;
         }
@@ -873,6 +861,10 @@ import javax.swing.border.LineBorder;
         
         public void refreshUiLeftPanel(ArrayList<NobleCards> nb, DevelopmentCards[][] dc) {
             leftPanel.removeAll();
+            level1CardLst.clear();
+            level2CardLst.clear();
+            level3CardLst.clear();
+            nobleCardLst.clear();
             for (int i=0; i<nb.size(); i++){
                 leftPanel.add(createNobleCard(nb.get(i)));
             }
@@ -884,21 +876,27 @@ import javax.swing.border.LineBorder;
             // กองสุ่ม
             leftPanel.add(createShuffleCard(3));
             for(int i=0; i<4; i++) {
-                leftPanel.add(createDeveloptmentCard(dc[2][i]));
+                JButton lv3card = createDeveloptmentCard(dc[2][i]);
+                leftPanel.add(lv3card);
+                level3CardLst.add(lv3card);
             }
 
             // Development Card lv2
             // กองสุ่ม
             leftPanel.add(createShuffleCard(2));
             for(int i=0; i<4; i++) {
-                leftPanel.add(createDeveloptmentCard(dc[1][i]));
+                JButton lv2card = createDeveloptmentCard(dc[1][i]);
+                leftPanel.add(lv2card);
+                level2CardLst.add(lv2card);
             }
             // Development Card lv1
             // กองสุ่ม
             leftPanel.add(createShuffleCard(1));
 
             for(int i=0; i<4; i++) {
-                leftPanel.add(createDeveloptmentCard(dc[0][i]));
+                JButton lv1card = createDeveloptmentCard(dc[0][i]);
+                leftPanel.add(lv1card);
+                level1CardLst.add(lv1card);
             }
             leftPanel.revalidate();
             leftPanel.repaint();
@@ -906,12 +904,13 @@ import javax.swing.border.LineBorder;
         
         public void refreshUiCenterPanel(HashMap<Gems.gemsColor, Integer> bankGems) {
             gemPanel.removeAll();
+            gemCardLst.clear();
             Gems.gemsColor[] color = {
-                Gems.gemsColor.White, 
+                Gems.gemsColor.Black,
                 Gems.gemsColor.Blue, 
                 Gems.gemsColor.Green, 
                 Gems.gemsColor.Red, 
-                Gems.gemsColor.Black, 
+                Gems.gemsColor.White,
                 Gems.gemsColor.Gold};
             for (int i=0; i<6; i++) {
                 JButton gemCard = new JButton(String.valueOf(bankGems.get(color[i])));
