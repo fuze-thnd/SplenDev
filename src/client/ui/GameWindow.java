@@ -770,7 +770,7 @@ import javax.swing.border.LineBorder;
             topPanel.setOpaque(false);
 
             if(dc.getPrestigePoints() > 0){
-                OutlineJLabel pointLabel =  new OutlineJLabel("7");
+                OutlineJLabel pointLabel =  new OutlineJLabel(String.valueOf(dc.getPrestigePoints()));
                 pointLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
                 pointLabel.setOutlineColor(Color.black);
                 pointLabel.setForeground(Color.WHITE);
@@ -850,8 +850,8 @@ import javax.swing.border.LineBorder;
                 return Gems.gemsColor.Red;
             } else if (Color.YELLOW.equals(color)) {
                 return Gems.gemsColor.Gold;
-            }
-
+            } else if (Color.ORANGE.equals(color))
+                return Gems.gemsColor.Gold;
             return null;
         }
 
@@ -935,95 +935,125 @@ import javax.swing.border.LineBorder;
             centerPanel.repaint();
         }
         
-        public void refreshUiRightPanel(ArrayList<Player> p) {
+        public void refreshUiRightPanel(ArrayList<Player> players) {
             playerspanel.removeAll();
 
-            Player p01 = p.get(0);
-            JPanel p1 = new JPanel();
-            p1.setBorder(new LineBorder(Color.WHITE, 2, true));
-            p1.setLayout(new BorderLayout());
-            p1.setBackground(Color.GRAY);
-            p1.setSize(300,150);
-            JPanel topp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            topp1.setBackground(Color.GRAY);
-            JLabel player1 = new JLabel(p01.getName());
-            player1.setFont(new Font("Arial", Font.PLAIN, 15));
-            player1.setForeground(Color.WHITE);
-            topp1.add(player1);
-            p1.add(topp1, BorderLayout.NORTH);
-            //inp1 คือ ช่องข้างในเอาไว้ใส่การ์ด
-            JPanel inp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inp1.setPreferredSize(new Dimension(300,70));
-            inp1.setBackground(Color.GRAY);
-            p1.add(inp1, BorderLayout.CENTER);
-            //lowp1 คือ ช่องล่างสุดเอาไว้ใส่gem
-            JPanel lowp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            lowp1.setBackground(Color.GRAY);
-            p1.add(lowp1, BorderLayout.SOUTH);
+            // อาเรย์สีสำหรับการ์ด และ เหรียญ เพื่อนำไปใช้ในลูป
+            Color[] cardColors = {Color.WHITE, Color.BLUE, Color.GREEN, Color.RED, Color.BLACK};
+            Color[] gemColors = {Color.ORANGE, Color.WHITE, Color.BLUE, Color.GREEN, Color.RED, Color.BLACK};
 
-            Player p02 = p.get(1);
-            JPanel p2 = new JPanel();
-            p2.setBorder(new LineBorder(Color.WHITE, 2, true));
-            p2.setLayout(new BorderLayout());
-            p2.setBackground(Color.GRAY);
-            p2.setSize(300,150);
-            JPanel topp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            topp2.setBackground(Color.GRAY);
-            JLabel player2 = new JLabel(p02.getName());
-            player2.setFont(new Font("Arial", Font.PLAIN, 15));
-            player2.setForeground(Color.WHITE);
-            topp2.add(player2);
-            p2.add(topp2, BorderLayout.NORTH);
-            JPanel inp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inp2.setPreferredSize(new Dimension(300,70));
-            inp2.setBackground(Color.GRAY);
-            p2.add(inp2, BorderLayout.CENTER);
-            JPanel lowp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            lowp2.setBackground(Color.GRAY);
-            p2.add(lowp2, BorderLayout.SOUTH);
+            for (int i = 0; i < players.size(); i++) {
+                Player currentPlayer = players.get(i);
 
-            Player p03 = p.get(2);
-            JPanel p3 = new JPanel();
-            p3.setBorder(new LineBorder(Color.WHITE, 2, true));
-            p3.setLayout(new BorderLayout());
-            p3.setBackground(Color.GRAY);
-            p3.setSize(300,150);
-            JPanel topp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            topp3.setBackground(Color.GRAY);
-            p3.add(topp3, BorderLayout.NORTH);
-            JLabel player3 = new JLabel(p03.getName());
-            player3.setFont(new Font("Arial", Font.PLAIN, 15));
-            player3.setForeground(Color.WHITE);
-            topp3.add(player3);
-            JPanel inp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inp3.setPreferredSize(new Dimension(300,70));
-            inp3.setBackground(Color.GRAY);
-            p3.add(inp3, BorderLayout.CENTER);
-            JPanel lowp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            lowp3.setBackground(Color.GRAY);
-            p3.add(lowp3, BorderLayout.SOUTH);
+                JPanel playerMainPanel = new JPanel();
+                playerMainPanel.setBorder(new LineBorder(Color.WHITE, 2, true));
+                playerMainPanel.setLayout(new BorderLayout());
+                playerMainPanel.setBackground(Color.GRAY);
+                playerMainPanel.setPreferredSize(new Dimension(300, 150));
 
-            Player p04 = p.get(3);
-            JPanel p4 = new JPanel();
-            p4.setBorder(new LineBorder(Color.WHITE, 2, true));
-            p4.setLayout(new BorderLayout());
-            p4.setBackground(Color.GRAY);
-            p4.setSize(300,150);
-            JPanel topp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            topp4.setBackground(Color.GRAY);
-            p4.add(topp4, BorderLayout.NORTH);
-            JLabel player4 = new JLabel(p04.getName());
-            player4.setForeground(Color.WHITE);
-            player4.setFont(new Font("Arial", Font.PLAIN, 15));
-            topp4.add(player4);
-            JPanel inp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inp4.setPreferredSize(new Dimension(300,70));
-            inp4.setBackground(Color.GRAY);
-            p4.add(inp4, BorderLayout.CENTER);
-            JPanel lowp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            lowp4.setBackground(Color.GRAY);
-            p4.add(lowp4, BorderLayout.SOUTH);
-            
+                // 1. ส่วนหัว (ชื่อผู้เล่น)
+                JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                topPanel.setBackground(Color.GRAY);
+                JLabel playerNameLabel = new JLabel(currentPlayer.getName());
+                playerNameLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+                playerNameLabel.setForeground(Color.WHITE);
+                topPanel.add(playerNameLabel);
+                playerMainPanel.add(topPanel, BorderLayout.NORTH);
+
+                // 2. ส่วนกลาง (ช่องใส่ Development Cards)
+                JPanel inPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                inPanel.setPreferredSize(new Dimension(300, 70));
+                inPanel.setBackground(Color.GRAY);
+                
+                // --- ลูปสร้างช่องการ์ด 5 สี ---
+                for (Color cColor : cardColors) {
+                    JPanel cardPanel = new JPanel();
+                    cardPanel.setPreferredSize(new Dimension(50, 100));
+                    cardPanel.setBackground(cColor);
+                    
+                    // TODO: ตรงนี้สามารถดึงจำนวนการ์ดจริงๆ จาก currentPlayer ได้ในอนาคต
+                    // 
+                    JLabel cardCount = new JLabel(String.valueOf(currentPlayer.getBonusGems().get(getGemColor(cColor)))); 
+                    if (cColor.equals(Color.BLACK)) {
+                        cardCount.setForeground(Color.WHITE); // ถ้าพื้นดำ ให้ตัวหนังสือสีขาว
+                    }
+                    cardPanel.add(cardCount);
+                    inPanel.add(cardPanel);
+                }
+                playerMainPanel.add(inPanel, BorderLayout.CENTER);
+
+                // 3. ส่วนล่าง (ช่องใส่เหรียญ Gems)
+                JPanel lowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                lowPanel.setBackground(Color.GRAY);
+
+                // --- ลูปสร้างช่องเหรียญ 6 สี ---
+                for (Color gColor : gemColors) {
+                    JPanel gemMiniPanel = new JPanel();
+                    gemMiniPanel.setBackground(gColor);
+                    
+                    // TODO: ดึงจำนวนเหรียญจาก currentPlayer 
+                    JLabel gemCount = new JLabel(String.valueOf(currentPlayer.getGems().get(getGemColor(gColor))));
+                    if (gColor.equals(Color.BLACK)) {
+                        gemCount.setForeground(Color.WHITE);
+                    }
+                    gemMiniPanel.add(gemCount);
+                    lowPanel.add(gemMiniPanel);
+                }
+
+                // --- เพิ่มคะแนนรวม (Total Points) ---
+                JLabel totalPoints = new JLabel("Total points: " + currentPlayer.getPrestigePoints());
+                totalPoints.setForeground(Color.WHITE);
+                lowPanel.add(totalPoints);
+
+                playerMainPanel.add(lowPanel, BorderLayout.SOUTH);
+
+                // นำ Panel ของผู้เล่นใส่เข้าไปในหน้าต่างหลัก
+                playerspanel.add(playerMainPanel);
+                if (i < players.size() - 1) {
+                    playerspanel.add(Box.createVerticalStrut(10));
+                }
+            }
+
+            JPanel reservepanel = new JPanel();
+            reservepanel.setBorder(new LineBorder(Color.WHITE, 2, true));
+            reservepanel.setLayout(new BorderLayout());
+            reservepanel.setBackground(Color.GRAY);
+            reservepanel.setPreferredSize(new Dimension(300, 220));
+
+            JPanel topreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            topreserve.setBackground(Color.GRAY);
+            reservepanel.add(topreserve, BorderLayout.NORTH);
+            JLabel reservecards = new JLabel("Reserve Cards");
+            reservecards.setForeground(Color.WHITE);
+            reservecards.setFont(new Font("Arial", Font.PLAIN, 15));
+            topreserve.add(reservecards);
+
+            JPanel inreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            inreserve.setPreferredSize(new Dimension(300, 220));
+            inreserve.setBackground(Color.GRAY);
+            reservepanel.add(inreserve, BorderLayout.CENTER);
+
+            JPanel lowreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            lowreserve.setBackground(Color.GRAY);
+            reservepanel.add(lowreserve, BorderLayout.SOUTH);
+
+            // ใช้ลูปสร้างปุ่ม Reserve Cards 3 ใบ เพื่อลดความซ้ำซ้อนของโค้ด
+            for (int i = 1; i <= 3; i++) {
+                JButton reserveCard = new JButton();
+                reserveCard.setPreferredSize(new Dimension(70, 85));
+                try {
+                    ImageIcon reservePic = new ImageIcon("การ์ดสำรอง" + i + ".jpg");
+                    // เพิ่มโค้ดปรับสเกลรูปภาพให้พอดีกับปุ่ม
+                    Image sizeImg = reservePic.getImage().getScaledInstance(70, 85, Image.SCALE_SMOOTH);
+                    reserveCard.setIcon(new ImageIcon(sizeImg));
+                } catch (Exception e) {
+                    reserveCard.setText("No Pic");
+                }
+                inreserve.add(reserveCard);
+            }
+
+            playerspanel.add(reservepanel);
+
             playerspanel.revalidate();
             playerspanel.repaint();
         }
