@@ -91,7 +91,7 @@ public class PlayerHandler implements Serializable {
             case "DISCONNECT":
                 disconnect();
                 break;
-            case "START_GAME":
+            case "START_GAME_REQUEST":
                 currentRoom.startGame();
         }
     }

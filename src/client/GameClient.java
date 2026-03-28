@@ -52,38 +52,14 @@ public class GameClient {
         new Thread(() -> {
             try {
                 while (connected) {
-                    // รอรับข้อมูลจาก Server ตลอดเวลา
                     Object obj = in.readObject();
-
-                    // --- กรณีที่ 1: รับข้อความแบบ String (เช่น ระบบ Lobby) ---
-                    if (obj instanceof String) {
-                        String message = (String) obj;
-                        System.out.println("[Server -> Client] ข้อความ: " + message);
-                        
-                        // ตัวอย่าง: ถ้า Server บอกให้เริ่มเกม
-                        if (message.equals("START_GAME")) {
-                            System.out.println("🎉 เย้! เซิร์ฟเวอร์สั่งให้เริ่มเกมแล้ว!");
-                            // TODO: สั่งเปิดหน้าต่าง GameWindow ตรงนี้
-                        }
-                    } 
-                    // --- กรณีที่ 2: รับข้อความแบบ NetworkMessage (เช่น ตอนเล่นเกม) ---
-                    else if (obj instanceof NetworkMessage) {
-                        NetworkMessage msg = (NetworkMessage) obj;
-                        System.out.println("[Server -> Client] คำสั่งเกม: " + msg.getCommand());
-                        
-                        if (msg.getCommand().equals("UPDATE_GAME_STATE")) {
-                            System.out.println("-> ได้รับข้อมูลกระดานเกมใหม่แล้ว");
-                        }
-                    } else if (obj instanceof RoomHandler) {
-                        RoomHandler room = (RoomHandler) obj;
-                        System.out.println("[Server -> Client] อัปเดตข้อมูลห้อง: " + room.getRoomName());
-                        
-                        if (currentLobbyWindow != null) {
-                            currentLobbyWindow.updateRoomData(room);
-                        }
-                    }
-                    // --- กรณีที่ 3: รับ Object อื่นๆ (เช่น ตอน Server ส่งข้อมูลห้องมา) ---
-                    else {
+                    if (obj instanceof String message) {
+                        handleServerMessage(message);
+                    } else if (obj instanceof NetworkMessage msg) {
+                        handleServerMessage(msg);
+                    } else if (obj instanceof RoomHandler room) {
+                        handleServerMessage(room);
+                    } else {
                         System.out.println("[Server -> Client] ได้รับ Object ชนิด: " + obj.getClass().getSimpleName());
                     }
                 }
@@ -91,7 +67,27 @@ public class GameClient {
                 System.err.println("การเชื่อมต่อถูกตัดขาด: " + e.getMessage());
                 connected = false;
             }
-        }).start(); // เริ่มรัน Thread
+        }).start();
+    }
+    
+    public void handleServerMessage(String str) {
+        System.out.println("[Server -> Client] " + str);
+        if (str.equals("START_GAME")) {
+            
+        }
+    }
+    
+    public void handleServerMessage(NetworkMessage msg) {
+        String command = msg.getCommand();
+        if (command.equals("UPDATE_GAME_STATE")) {
+            
+        }
+    }
+    
+    public void handleServerMessage(RoomHandler room) {
+        if (currentLobbyWindow != null) {
+                            currentLobbyWindow.updateRoomData(room);
+        }
     }
 
     // เมธอดสำหรับส่งข้อมูล

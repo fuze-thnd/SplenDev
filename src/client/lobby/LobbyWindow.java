@@ -217,7 +217,7 @@ public class LobbyWindow extends javax.swing.JFrame {
     private void btn_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_startActionPerformed
         if (isHost) {
             System.out.println("Host start the game!");
-            GameClient.getInstance().sendToServer("START_GAME");
+            GameClient.getInstance().sendToServer("START_GAME_REQUEST");
         }
     }//GEN-LAST:event_btn_startActionPerformed
 
