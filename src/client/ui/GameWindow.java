@@ -1,9 +1,14 @@
 package client.ui;
 
+import shared.DevelopmentCards;
+import shared.Gems;
+import shared.NobleCards;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
     public class GameWindow {
@@ -21,88 +26,58 @@ import javax.swing.border.LineBorder;
         public GameWindow(){
             //ตั้งค่าLayout MainWindow
             frame = new JFrame();
+            frame.setResizable(false);
             mainPanel = new JPanel();
             leftPanel = new JPanel();
             centerPanel = new JPanel();
             rightPanel = new JPanel();
 
             frame.add(mainPanel);
-            frame.setSize(1400,900);
-            frame.setLocationRelativeTo(null);
-            frame.setResizable(false);
+//            frame.setResizable(false);
 
             //หน้าจอหลักปรับlayoutUI
             mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
             mainPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
             //กำหนดขนาดฝั่งที่มีการ์ด
-            leftPanel.setLayout(new BorderLayout());
-            leftPanel.setPreferredSize(new Dimension(620,610));
+            leftPanel.setLayout(new FlowLayout());
+            leftPanel.setPreferredSize(new Dimension(700,700));
 
             // กำหนดขนาดฝั่งเจม
             centerPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
             centerPanel.setPreferredSize(new Dimension(60,610));
 
             //กำหนดขนาดฝั่งplayer
-            rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS));
+//            rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.X_AXIS));
+            rightPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
             rightPanel.setPreferredSize(new Dimension(450,730));
 
             //สร้างLayout Card
-            JPanel noblePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,0));
+            JPanel noblePanel = new JPanel(new FlowLayout(FlowLayout.CENTER,10,0));
             for(int i=0; i<5; i++){
-                JButton nobleCard = new JButton();
-                nobleCard.setPreferredSize(new Dimension(100,100));
-                try {
-                    ImageIcon noblePic = new ImageIcon("NobleCardImage/noble" + i + ".png");
-                    Image sizeImg = noblePic.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
-                    nobleCard.setIcon(new ImageIcon(sizeImg));
-                } catch (Exception e) {
-                    nobleCard.setText("No Pic");
-                }
-                nobleCardLst.add(nobleCard);
-                noblePanel.add(nobleCard);
+                leftPanel.add(createNobleCard());
             }
-            JPanel cardPanel1 = new JPanel(new FlowLayout(FlowLayout.CENTER,20,20));
 
-            JPanel cardPanel2 = new JPanel(new GridLayout(3,5,20,20));
-            for(int i=0; i<5; i++) {
-                JButton level1Card = new JButton();
-                level1CardLst.add(level1Card);
-                level1Card.setPreferredSize(new Dimension(100,150));
-                try {
-                    ImageIcon level1Pic = new ImageIcon("DevelopmentCardImage/card" + i + ".jpeg");
-                    Image sizeImg = level1Pic.getImage().getScaledInstance(100,150,Image.SCALE_SMOOTH);
-                    level1Card.setIcon(new ImageIcon(sizeImg));
-                } catch (Exception e) {
-                    level1Card.setText("No Pic");
-                }
-                cardPanel2.add(level1Card);
+            // Development Card lv3
+            // กองสุ่ม
+            leftPanel.add(createShuffleCard(3));
+
+            for(int i=0; i<4; i++) {
+                leftPanel.add(createDeveloptmentCard());
             }
-            for(int i=0; i<5; i++) {
-                JButton level2Card = new JButton();
-                level2Card.setPreferredSize(new Dimension(100,150));
-                try {
-                    ImageIcon level2Pic = new ImageIcon("DevelopmentCardImage/card" + i + ".jpeg");
-                    Image sizeImg = level2Pic.getImage().getScaledInstance(100,150,Image.SCALE_SMOOTH);
-                    level2Card.setIcon(new ImageIcon(sizeImg));
-                } catch (Exception e) {
-                    level2Card.setText("No Pic");
-                }
-                level2CardLst.add(level2Card);
-                cardPanel2.add(level2Card);
+
+            // Development Card lv2
+            // กองสุ่ม
+            leftPanel.add(createShuffleCard(2));
+            for(int i=0; i<4; i++) {
+                leftPanel.add(createDeveloptmentCard());
             }
-            for(int i=0; i<5; i++) {
-                JButton level3Card = new JButton();
-                level3Card.setPreferredSize(new Dimension(100,150));
-                try {
-                    ImageIcon level3Pic = new ImageIcon("DevelopmentCardImage/card" + i + ".jpeg");
-                    Image sizeImg = level3Pic.getImage().getScaledInstance(100,150,Image.SCALE_SMOOTH);
-                    level3Card.setIcon(new ImageIcon(sizeImg));
-                } catch (Exception e) {
-                    level3Card.setText("No Pic");
-                }
-                level3CardLst.add(level3Card);
-                cardPanel2.add(level3Card);
+            // Development Card lv1
+            // กองสุ่ม
+            leftPanel.add(createShuffleCard(1));
+
+            for(int i=0; i<4; i++) {
+                leftPanel.add(createDeveloptmentCard());
             }
             JPanel gemPanel = new JPanel(new GridLayout(6,1,20,50    ));
             for(int i=0; i<6; i++) {
@@ -123,13 +98,13 @@ import javax.swing.border.LineBorder;
         //players panel
             JPanel playerspanel = new JPanel();
             playerspanel.setLayout(new BoxLayout(playerspanel, BoxLayout.Y_AXIS));
-            playerspanel.setBorder(BorderFactory.createEmptyBorder(53, 50, 10, 0));
+            playerspanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
 
             JPanel p1 = new JPanel();
             p1.setBorder(new LineBorder(Color.WHITE, 2, true));
             p1.setLayout(new BorderLayout());
             p1.setBackground(Color.GRAY);
-            p1.setSize(300,100);
+            p1.setSize(300,150);
             JPanel topp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
             topp1.setBackground(Color.GRAY);
             JLabel player1 = new JLabel("Player1");
@@ -139,7 +114,7 @@ import javax.swing.border.LineBorder;
             p1.add(topp1, BorderLayout.NORTH);
             //inp1 คือ ช่องข้างในเอาไว้ใส่การ์ด
             JPanel inp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inp1.setPreferredSize(new Dimension(300,250));
+            inp1.setPreferredSize(new Dimension(300,70));
             inp1.setBackground(Color.GRAY);
             p1.add(inp1, BorderLayout.CENTER);
             //lowp1 คือ ช่องล่างสุดเอาไว้ใส่gem
@@ -151,7 +126,7 @@ import javax.swing.border.LineBorder;
             p2.setBorder(new LineBorder(Color.WHITE, 2, true));
             p2.setLayout(new BorderLayout());
             p2.setBackground(Color.GRAY);
-            p2.setSize(300,100);
+            p2.setSize(300,150);
             JPanel topp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
             topp2.setBackground(Color.GRAY);
             JLabel player2 = new JLabel("Player2");
@@ -160,7 +135,7 @@ import javax.swing.border.LineBorder;
             topp2.add(player2);
             p2.add(topp2, BorderLayout.NORTH);
             JPanel inp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inp2.setPreferredSize(new Dimension(300,250));
+            inp2.setPreferredSize(new Dimension(300,70));
             inp2.setBackground(Color.GRAY);
             p2.add(inp2, BorderLayout.CENTER);
             JPanel lowp2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -171,7 +146,7 @@ import javax.swing.border.LineBorder;
             p3.setBorder(new LineBorder(Color.WHITE, 2, true));
             p3.setLayout(new BorderLayout());
             p3.setBackground(Color.GRAY);
-            p3.setSize(300,100);
+            p3.setSize(300,150);
             JPanel topp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
             topp3.setBackground(Color.GRAY);
             p3.add(topp3, BorderLayout.NORTH);
@@ -180,7 +155,7 @@ import javax.swing.border.LineBorder;
             player3.setForeground(Color.WHITE);
             topp3.add(player3);
             JPanel inp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inp3.setPreferredSize(new Dimension(300,250));
+            inp3.setPreferredSize(new Dimension(300,70));
             inp3.setBackground(Color.GRAY);
             p3.add(inp3, BorderLayout.CENTER);
             JPanel lowp3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -191,7 +166,7 @@ import javax.swing.border.LineBorder;
             p4.setBorder(new LineBorder(Color.WHITE, 2, true));
             p4.setLayout(new BorderLayout());
             p4.setBackground(Color.GRAY);
-            p4.setSize(300,100);
+            p4.setSize(300,150);
             JPanel topp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
             topp4.setBackground(Color.GRAY);
             p4.add(topp4, BorderLayout.NORTH);
@@ -200,7 +175,7 @@ import javax.swing.border.LineBorder;
             player4.setFont(new Font("Arial", Font.PLAIN, 15));
             topp4.add(player4);
             JPanel inp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inp4.setPreferredSize(new Dimension(300,250));
+            inp4.setPreferredSize(new Dimension(300,70));
             inp4.setBackground(Color.GRAY);
             p4.add(inp4, BorderLayout.CENTER);
             JPanel lowp4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -490,7 +465,7 @@ import javax.swing.border.LineBorder;
             reservepanel.setBorder(new LineBorder(Color.WHITE, 2, true));
             reservepanel.setLayout(new BorderLayout());
             reservepanel.setBackground(Color.GRAY);
-            reservepanel.setSize(300,100);
+            reservepanel.setSize(300,220);
             JPanel topreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
             topreserve.setBackground(Color.GRAY);
             reservepanel.add(topreserve, BorderLayout.NORTH);
@@ -499,7 +474,7 @@ import javax.swing.border.LineBorder;
             reservecards.setFont(new Font("Arial", Font.PLAIN, 15));
             topreserve.add(reservecards);
             JPanel inreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            inreserve.setPreferredSize(new Dimension(300,250));
+            inreserve.setPreferredSize(new Dimension(300,220));
             inreserve.setBackground(Color.GRAY);
             reservepanel.add(inreserve, BorderLayout.CENTER);
             JPanel lowreserve = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -509,15 +484,15 @@ import javax.swing.border.LineBorder;
             //reserve cards
             ImageIcon reservecard1pic = new ImageIcon("การ์ดสำรอง1.jpg");
             JButton reservecard1 = new JButton(reservecard1pic);
-            reservecard1.setPreferredSize(new Dimension(50,100));
+            reservecard1.setPreferredSize(new Dimension(70,85));
             inreserve.add(reservecard1);
             ImageIcon reservecard2pic = new ImageIcon("การ์ดสำรอง2.jpg");
             JButton reservecard2 = new JButton(reservecard2pic);
-            reservecard2.setPreferredSize(new Dimension(50,100));
+            reservecard2.setPreferredSize(new Dimension(70,85));
             inreserve.add(reservecard2);
             ImageIcon reservecard3pic = new ImageIcon("การ์ดสำรอง3.jpg");
             JButton reservecard3 = new JButton(reservecard3pic);
-            reservecard3.setPreferredSize(new Dimension(50,100));
+            reservecard3.setPreferredSize(new Dimension(70,85));
             inreserve.add(reservecard3);
 
 
@@ -533,17 +508,9 @@ import javax.swing.border.LineBorder;
             playerspanel.add(reservepanel);
 
             //players panel
-
-
-
-
-
             mainPanel.add(leftPanel);
             mainPanel.add(centerPanel);
             mainPanel.add(rightPanel);
-            cardPanel1.add(cardPanel2);
-            leftPanel.add(noblePanel,BorderLayout.NORTH);
-            leftPanel.add(cardPanel1,BorderLayout.CENTER);
             centerPanel.add(gemPanel);
             rightPanel.add(playerspanel);
             frame.setVisible(true);
@@ -595,9 +562,245 @@ import javax.swing.border.LineBorder;
             loseLabel.setHorizontalAlignment(SwingConstants.CENTER);
             loseLabel.setVerticalAlignment(SwingConstants.CENTER);
             LoseGlass.add(loseLabel);
+
+            frame.pack();
         }
 
+        private JButton createShuffleCard(int level) {
+            JButton drawCard = new JButton();
+            drawCard.setOpaque(false);
+            drawCard.setPreferredSize(new Dimension(130,180));
+            try {
+                ImageIcon level1Pic = new ImageIcon("DevelopmentCardImage/ShuffleCard/cardrow" + level + ".png");
+                Image sizeImg = level1Pic.getImage().getScaledInstance(130,180,Image.SCALE_SMOOTH);
+                drawCard.setIcon(new ImageIcon(sizeImg));
+            } catch (Exception e) {
+                drawCard.setText("No Pic");
+            }
 
+            return drawCard;
+        }
+
+        private JButton createNobleCard(){
+            JButton nobleCard = new JButton();
+            nobleCard.setLayout(new BorderLayout());
+
+            OutlineJLabel pointLabel =  new OutlineJLabel("7");
+            pointLabel.setOutlineColor(Color.black);
+            pointLabel.setForeground(Color.WHITE);
+            pointLabel.setOpaque(false);
+
+            nobleCard.add(pointLabel, BorderLayout.NORTH);
+
+            JPanel costPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,0));
+            costPanel.setOpaque(false);
+            for(int a = 0; a<3; a++){
+                OutlineJLabel costLabel =  new OutlineJLabel("7", SwingConstants.CENTER);
+                costLabel.setPreferredSize(new Dimension(20, 20));
+                costLabel.setOutlineColor(Color.black);
+                costLabel.setForeground(Color.WHITE);
+                costLabel.setBackground(Color.GREEN);
+                costLabel.setOpaque(true);
+                costPanel.add(costLabel);
+            }
+
+            nobleCard.add(costPanel, BorderLayout.SOUTH);
+
+            nobleCard.setPreferredSize(new Dimension(130,130));
+            try {
+                ImageIcon noblePic = new ImageIcon("NobleCardImage/noble1" + ".png");
+                Image sizeImg = noblePic.getImage().getScaledInstance(130,130,Image.SCALE_SMOOTH);
+                nobleCard.setIcon(new ImageIcon(sizeImg));
+            } catch (Exception e) {
+                nobleCard.setText("No Pic");
+            }
+            nobleCardLst.add(nobleCard);
+
+            return nobleCard;
+        }
+
+        private JButton createNobleCard(NobleCards nc){
+            JButton nobleCard = new JButton();
+            nobleCard.setLayout(new BorderLayout());
+
+            OutlineJLabel pointLabel =  new OutlineJLabel(nc.getPrestigePoints() + "");
+            pointLabel.setOutlineColor(Color.black);
+            pointLabel.setForeground(Color.WHITE);
+            pointLabel.setOpaque(false);
+
+            nobleCard.add(pointLabel, BorderLayout.NORTH);
+
+            JPanel costPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,0));
+            costPanel.setOpaque(false);
+            for(Gems.gemsColor color : Gems.gemsColor.values()){
+                if(color.equals(Gems.gemsColor.Gold)) continue;
+
+                Integer costAmount = (Integer) nc.getCost().get(color);
+                if(costAmount != null && costAmount > 0){
+                    OutlineJLabel costLabel =  new OutlineJLabel(costAmount + "", SwingConstants.CENTER);
+                    costLabel.setPreferredSize(new Dimension(20, 20));
+                    costLabel.setOutlineColor(Color.black);
+                    costLabel.setForeground(Color.WHITE);
+                    costLabel.setBackground(getGemColor(color));
+                    costLabel.setOpaque(true);
+                    costPanel.add(costLabel);
+                }
+            }
+
+            nobleCard.add(costPanel, BorderLayout.SOUTH);
+
+            nobleCard.setPreferredSize(new Dimension(130,130));
+            try {
+                ImageIcon noblePic = new ImageIcon("NobleCardImage/" + nc.getImageName() + ".png");
+                Image sizeImg = noblePic.getImage().getScaledInstance(130,130,Image.SCALE_SMOOTH);
+                nobleCard.setIcon(new ImageIcon(sizeImg));
+            } catch (Exception e) {
+                nobleCard.setText("No Pic");
+            }
+            nobleCardLst.add(nobleCard);
+
+            return nobleCard;
+        }
+
+        private JButton createDeveloptmentCard(){
+            JButton dvCard = new JButton();
+            dvCard.setLayout(new BorderLayout());
+
+            JPanel topPanel = new JPanel(new BorderLayout());
+            topPanel.setOpaque(false);
+            OutlineJLabel pointLabel =  new OutlineJLabel("7");
+            pointLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+            pointLabel.setOutlineColor(Color.black);
+            pointLabel.setForeground(Color.WHITE);
+            pointLabel.setOpaque(false);
+            topPanel.add(pointLabel, BorderLayout.WEST);
+
+            OutlineJLabel bonusGemLabel =  new OutlineJLabel("", SwingConstants.CENTER);
+            bonusGemLabel.setPreferredSize(new Dimension(20, 20));
+            bonusGemLabel.setOutlineColor(Color.black);
+            bonusGemLabel.setForeground(Color.WHITE);
+            bonusGemLabel.setBackground(Color.GREEN);
+            bonusGemLabel.setOpaque(true);
+            topPanel.add(bonusGemLabel, BorderLayout.EAST);
+            dvCard.add(topPanel, BorderLayout.NORTH);
+
+            // Cost Panel ราคา
+            JPanel costPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,0));
+            costPanel.setOpaque(false);
+            for(int a = 0; a<3; a++){
+                OutlineJLabel costLabel =  new OutlineJLabel("7", SwingConstants.CENTER);
+                costLabel.setPreferredSize(new Dimension(20, 20));
+                costLabel.setOutlineColor(Color.black);
+                costLabel.setForeground(Color.WHITE);
+                costLabel.setBackground(Color.GREEN);
+                costLabel.setOpaque(true);
+                costPanel.add(costLabel);
+            }
+            dvCard.add(costPanel, BorderLayout.SOUTH);
+
+            dvCard.setPreferredSize(new Dimension(130,180));
+            try {
+                ImageIcon level1Pic = new ImageIcon("DevelopmentCardImage/card" + 0 + ".jpeg");
+                Image sizeImg = level1Pic.getImage().getScaledInstance(130,180,Image.SCALE_SMOOTH);
+                dvCard.setIcon(new ImageIcon(sizeImg));
+            } catch (Exception e) {
+                dvCard.setText("No Pic");
+            }
+
+            return dvCard;
+        }
+
+        private JButton createDeveloptmentCard(DevelopmentCards dc) {
+            JButton dvCard = new JButton();
+            dvCard.setLayout(new BorderLayout());
+            JPanel topPanel = new JPanel(new BorderLayout());
+            topPanel.setOpaque(false);
+
+            if(dc.getPrestigePoints() > 0){
+                OutlineJLabel pointLabel =  new OutlineJLabel("7");
+                pointLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+                pointLabel.setOutlineColor(Color.black);
+                pointLabel.setForeground(Color.WHITE);
+                pointLabel.setOpaque(false);
+                topPanel.add(pointLabel, BorderLayout.WEST);
+            }
+
+            OutlineJLabel bonusGemLabel =  new OutlineJLabel("", SwingConstants.CENTER);
+            bonusGemLabel.setPreferredSize(new Dimension(20, 20));
+            bonusGemLabel.setOutlineColor(Color.black);
+            bonusGemLabel.setForeground(Color.WHITE);
+            bonusGemLabel.setBackground(getGemColor(dc.getGemsColor()));
+            bonusGemLabel.setOpaque(true);
+            topPanel.add(bonusGemLabel, BorderLayout.EAST);
+            dvCard.add(topPanel, BorderLayout.NORTH);
+
+            // Cost Panel ราคา
+            JPanel costPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,0));
+            costPanel.setOpaque(false);
+            for(Gems.gemsColor color : Gems.gemsColor.values()){
+                if (color.equals(Gems.gemsColor.Gold)) continue;
+
+                Integer costAmount = (Integer) dc.getCost().get(color);
+                if(costAmount != null && costAmount > 0){
+                    OutlineJLabel costLabel =  new OutlineJLabel(costAmount + "", SwingConstants.CENTER);
+                    costLabel.setPreferredSize(new Dimension(20, 20));
+                    costLabel.setOutlineColor(Color.black);
+                    costLabel.setForeground(Color.WHITE);
+                    costLabel.setBackground(getGemColor(color));
+                    costLabel.setOpaque(true);
+                    costPanel.add(costLabel);
+                }
+            }
+            dvCard.add(costPanel, BorderLayout.SOUTH);
+
+            dvCard.setPreferredSize(new Dimension(120,150));
+            try {
+                ImageIcon level1Pic = new ImageIcon("DevelopmentCardImage/"  + dc.getImageName() + ".jpeg");
+                Image sizeImg = level1Pic.getImage().getScaledInstance(120,150,Image.SCALE_SMOOTH);
+                dvCard.setIcon(new ImageIcon(sizeImg));
+            } catch (Exception e) {
+                dvCard.setText("No Pic");
+            }
+
+            return dvCard;
+        }
+
+        private Color getGemColor(Gems.gemsColor color){
+            switch (color){
+                case White:
+                    return Color.WHITE;
+                case Black:
+                    return Color.BLACK;
+                case Blue:
+                    return Color.BLUE;
+                case Green:
+                    return Color.GREEN;
+                case Red:
+                    return Color.RED;
+                case Gold:
+                    return Color.YELLOW;
+            }
+
+            return null;
+        }
+
+        private Gems.gemsColor getGemColor(Color color) {
+            if (Color.WHITE.equals(color)) {
+                return Gems.gemsColor.White;
+            } else if (Color.BLACK.equals(color)) {
+                return Gems.gemsColor.Black;
+            } else if (Color.BLUE.equals(color)) {
+                return Gems.gemsColor.Blue;
+            } else if (Color.GREEN.equals(color)) {
+                return Gems.gemsColor.Green;
+            } else if (Color.RED.equals(color)) {
+                return Gems.gemsColor.Red;
+            } else if (Color.YELLOW.equals(color)) {
+                return Gems.gemsColor.Gold;
+            }
+
+            return null;
+        }
 
         public List<JButton> getNobleCardLst(){
             return nobleCardLst;

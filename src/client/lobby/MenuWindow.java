@@ -1,6 +1,7 @@
 package client.lobby;
 
 import client.GameClient;
+import client.ui.GameWindow;
 
 import javax.swing.*;
 
@@ -10,6 +11,7 @@ public class MenuWindow extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public MenuWindow() {
+//        new GameWindow();
         initComponents();
     }
 
